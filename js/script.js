@@ -1,0 +1,141 @@
+
+window.addEventListener("load", initPagina);  /* window-intreaga pag, addEv.. asculta un ev, load- la incarcare, apeleaza intiPag */
+
+let x1 = 0;
+let y1 = 0; /*coord primului click*/
+let clickuri = 0; /*contor pt click-uri */
+let ctx;  /* context object */
+
+
+function initPagina() {
+
+    /* document-pagina incarcata cu tot ce e in ea, titlu, tabele, paragrafe... apoi cauta elementul cu id-ul...   innerHTML continutul din interiorul elem */
+    document.getElementById("dataOra").innerHTML = "se incarcă " + new Date();  /*daca dai refreh rapid vezi asta timp de o sec*/
+    document.getElementById("url").innerHTML     = window.location.href;  /* window  e fereastra browserului, adica mediul in care ruleaza pag, location contine inf despre protocol, domeniu, calea, param URL,   href e adresa completa a pag*/
+    document.getElementById("locatie").innerHTML = window.navigator.language + " / " + window.navigator.languages.join(", ");  /*language- limba rincipala a browserului si languages sunt limbile in ordinea preferintei  */
+    document.getElementById("browser").innerHTML = window.navigator.userAgent;  /* https://www.w3schools.com/jsref/prop_nav_useragent.asp */
+    document.getElementById("os").innerHTML      = window.navigator.platform;
+    /* https://www.w3schools.com/jsref/obj_navigator.asp */
+
+   //la fiecare sec
+    window.setInterval(infoBrowser, 1000);  /*setInterval executa functia infoBr.. la interval de 1000ms, functia e fara () pt e transmisa ca referinta, nu se executa imediat*/
+
+    initCanvas();
+}
+
+
+function infoBrowser() {
+    let d = new Date();  /*d primeste timpul curent*/
+
+    let dataFormatata = d.toLocaleDateString("ro-RO", {
+        weekday: "long",
+        year:    "numeric",
+        month:   "long",
+        day:     "numeric"
+    });
+    let oraFormatata = d.toLocaleTimeString("ro-RO");
+
+    document.getElementById("dataOra").innerHTML = dataFormatata + " - " + oraFormatata;
+}
+
+function initCanvas() {
+    /*ia elem canvas din html, creeaza un context  (ctx e obiectul prin care desenez), cand dau click pe canvas se apeleaza desen*/
+    /* https://www.w3schools.com/tags/ref_canvas.asp */
+    let canvas = document.getElementById("canvas");
+    ctx = canvas.getContext("2d");
+    canvas.addEventListener("click", desen);
+}
+
+
+function desen(event) {  /*event contine inf despre unde am dat click */
+    let canvas = document.getElementById("canvas");
+    
+    /*scalarea canvas si ce vad in css */
+    let scaleX = canvas.width  / canvas.offsetWidth; 
+    let scaleY = canvas.height / canvas.offsetHeight;
+    
+    /*cordonate relativ la coltul stanga sus si inmultim pentru corectie scalare */
+    let x = event.offsetX * scaleX;
+    let y = event.offsetY * scaleY;
+
+    if (clickuri === 0) {
+        x1 = x;
+        y1 = y;
+        clickuri = 1;
+
+        /* https://www.w3schools.com/tags/ref_canvas.asp */
+        ctx.beginPath();  /*incepe un desen nou*/
+        ctx.arc(x, y, 5, 0, Math.PI * 2); /*adaug punctul pt primul click */
+        ctx.fillStyle = document.getElementById("culoareContur").value; /*ia culoarea */
+        ctx.fill(); /*umple cercul */
+
+    } else {
+        let contur = document.getElementById("culoareContur").value;
+        let fill   = document.getElementById("culoareFill").value;
+
+        let xx = Math.min(x1, x);
+        let yy = Math.min(y1, y);
+        let w  = Math.abs(x - x1);
+        let h  = Math.abs(y - y1);
+
+
+        /* https://www.w3schools.com/tags/ref_canvas.asp */
+        ctx.fillStyle   = fill;
+        ctx.fillRect(xx, yy, w, h);
+
+        ctx.strokeStyle = contur;
+        ctx.lineWidth   = 2;
+        ctx.strokeRect(xx, yy, w, h);
+
+        clickuri = 0;
+    }
+}
+
+
+function stergeCanvas() {
+    let canvas = window.document.getElementById("canvas");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    clickuri = 0; 
+}
+
+
+
+
+function insereazaLinie() {
+    let t       = document.getElementById("tabel");
+    let poz     = parseInt(document.getElementById("poz").value); /*inputul da text si eu il iau ca nr */
+    let culoare = document.getElementById("culoareLinie").value;
+
+    let nrColoane = t.rows[0].cells.length; /* ia nr de celule dintr-un rand ca sa vad nr de col https://www.w3schools.com/jsref/dom_obj_table.asp */
+    let rand = t.insertRow(poz);  /* https://www.w3schools.com/jsref/coll_table_rows.asp */ 
+
+    for (let i = 0; i < nrColoane; i++) {
+        let numColoana = t.rows[0].cells[i].innerHTML;  /* ia numele coloanei din header https://www.w3schools.com/jsref/dom_obj_table.asp */
+        let valoare = window.prompt("Introdu valoarea pentru coloana: " + numColoana);   
+
+        let celula = rand.insertCell(i);
+        celula.innerHTML = valoare !== null ? valoare : " ";  // daca apesi Cancel pune spatiu
+        celula.style.backgroundColor = culoare;
+    }
+}
+
+function insereazaColoana() {
+    let t       = document.getElementById("tabel");
+    let poz     = parseInt(document.getElementById("poz").value); 
+    let culoare = document.getElementById("culoareLinie").value;
+
+    let numeColoana = window.prompt("Introdu numele coloanei noi:");
+
+    for (let i = 0; i < t.rows.length; i++) {
+        let celula = t.rows[i].insertCell(poz);
+        celula.style.backgroundColor = culoare;
+
+        if (i === 0) {
+            celula.innerHTML = numeColoana !== null ? numeColoana : "–";
+        } else {
+            let numRand = t.rows[i].cells[0].innerHTML;  
+            let valoare = window.prompt("Introdu valoarea pentru rândul: " + numRand);
+            celula.innerHTML = valoare !== null ? valoare : "–";
+        }
+    }
+}
