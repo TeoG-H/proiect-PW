@@ -1,0 +1,39 @@
+<div class="card-bloc">
+    <div class="bloc-label">Cumpărături</div>
+    <h2>Lista de cumpărături</h2>
+    <div class="separator"></div>
+
+    <div class="tabel-controls">
+        <label>Salvare în
+            <select id="tip-stocare">
+                <option value="localStorage">localStorage</option>
+                <option value="indexedDB">IndexedDB</option>
+            </select>
+        </label>
+    </div>
+
+    <div class="form-stilizat">
+        <div class="form-cols">
+            <div class="form-group">
+                <label for="nume-produs">Nume produs</label>
+                <input type="text" id="nume-produs" placeholder="ex: Heineken">
+            </div>
+            <div class="form-group">
+                <label for="cantitate-produs">Cantitate</label>
+                <input type="text" id="cantitate-produs" placeholder="ex: 6 buc">
+            </div>
+        </div>
+        <button class="btn-submit" onclick="adaugaProdus()">Adaugă</button>
+    </div>
+
+    <table id="tabel-cumparaturi" style="margin-top:24px">
+        <thead>
+            <tr>
+                <th>Nr.</th>
+                <th>Nume produs</th>
+                <th>Cantitate</th>
+            </tr>
+        </thead>
+        <tbody id="lista-produse"></tbody>
+    </table>
+</div>
