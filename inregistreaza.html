@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Înregistrare</title>
+    <link rel="stylesheet" href="css/stil.css">
+
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <a href="index.html">Acasă</a>
+            <a href="despre_heineken.html">Despre</a>
+            <a href="inregistreaza.html" class="nav-activ">Formular</a>
+            <a href="video.html">Video</a>
+            <a href="desen.html">Desen</a>
+        </nav>
+        <div class="hero-header">
+            <h1>Heineken</h1>
+            <p class="hero-sub">Hai să te înscrii la Heineken Experience</p>
+        </div>
+    </header>
+
+    <section>
+        <div class="card-bloc">
+            <div class="bloc-label">Înregistrare</div>
+            <h2>Completează formularul</h2>
+            <div class="separator"></div>
+            <p>Spune-ne cine ești și află ce te așteaptă la Heineken Experience din Amsterdam.</p>
+
+            <form class="form-stilizat">
+
+                <fieldset class="form-fieldset">
+                    <legend class="fieldset-legend">Informații generale</legend>
+
+                    <div class="form-cols">
+                        <div class="form-group">
+                            <label for="nume_utilizator">Nume utilizator</label>
+                            <input type="text" id="nume_utilizator" name="nume_utilizator">
+                        </div>
+                        <div class="form-group">
+                            <label for="parola">Parolă</label>
+                            <input type="password" id="parola" name="parola">
+                        </div>
+                        <div class="form-group">
+                            <label for="nume">Nume</label>
+                            <input type="text" id="nume" name="nume">
+                        </div>
+                        <div class="form-group">
+                            <label for="prenume">Prenume</label>
+                            <input type="text" id="prenume" name="prenume">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="nr_tel">Număr de telefon</label>
+                            <input type="tel" id="nr_tel" name="nr_tel">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="form-fieldset">
+                    <legend class="fieldset-legend">Informații personale</legend>
+
+                    <div class="form-group">
+                        <label for="sex">Sex</label>
+                        <select id="sex" name="sex">
+                            <option value="m">Masculin</option>
+                            <option value="f">Feminin</option>
+                            <option value="alt">Altul</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bere">Tip bere preferat</label>
+                        <input list="bere_preferata" id="bere" name="bere">
+                        <datalist id="bere_preferata">
+                            <option>Heineken Original</option>
+                            <option>Heineken Silver</option>
+                            <option>Heineken 0.0</option>
+                            <option>Heineken Draught</option>
+                        </datalist>
+                    </div>
+
+                    <div class="form-cols">
+                        <div class="form-group">
+                            <label for="culoare">Culoarea preferată</label>
+                            <input type="color" id="culoare" name="culoare">
+                        </div>
+                        <div class="form-group">
+                            <label for="site">Pagina personală</label>
+                            <input type="url" id="site" name="site" placeholder="https://...">
+                        </div>
+                        <div class="form-group">
+                            <label for="data">Data nașterii</label>
+                            <input type="date" id="data" name="data">
+                        </div>
+                        <div class="form-group">
+                            <label for="ora">Ora nașterii</label>
+                            <input type="time" id="ora" name="ora">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="varsta">Vârsta: <span id="varsta-val">50</span> ani</label>
+                        <input type="range" id="varsta" name="varsta" min="0" max="100" value="50"
+                               oninput="document.getElementById('varsta-val').textContent=this.value">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descriere">Descriere</label>
+                        <textarea id="descriere" name="descriere" rows="4" placeholder="Câteva cuvinte despre tine..."></textarea>
+                    </div>
+                </fieldset>
+
+                <button type="submit" class="btn-submit" disabled>Înregistrează</button>
+
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <hr>
+        &copy; Heineken
+    </footer>
+
+</body>
+
+</html>

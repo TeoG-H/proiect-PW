@@ -1,0 +1,23 @@
+<!ELEMENT persoane (persoana+)>   <!-- pers+  cel putin o pers, una sau mai multe  --> 
+
+<!ELEMENT persoana (nume, prenume, varsta, adresa, email, telefon, studii)>   <!-- struct unei pers, daca le pui in alta ordine nu merge-->
+<!ATTLIST persoana id NMTOKEN #REQUIRED> <!-- required - ca e obligatoriu, NMT... text simplu fara spatii(1, p1), se poate folosi si ID in loc de NMT.. dar nu poate incepe cu cifra  -->
+
+<!ELEMENT nume (#PCDATA)>  <!-- PCDATA - text simplu -->
+<!ELEMENT prenume (#PCDATA)>
+<!ELEMENT varsta (#PCDATA)>
+
+<!ELEMENT adresa (strada, numar, localitate, judet, tara)>
+<!ELEMENT strada (#PCDATA)>
+<!ELEMENT numar (#PCDATA)>
+<!ELEMENT localitate (#PCDATA)>
+<!ELEMENT judet (#PCDATA)>
+<!ELEMENT tara (#PCDATA)>
+
+<!ELEMENT email (#PCDATA)>
+<!ELEMENT telefon (#PCDATA)>
+
+<!ELEMENT studii (universitate, facultate, specializare)>
+<!ELEMENT universitate (#PCDATA)>
+<!ELEMENT facultate (#PCDATA)>
+<!ELEMENT specializare (#PCDATA)>

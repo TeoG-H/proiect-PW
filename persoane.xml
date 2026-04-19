@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>              <!--  documentul este in format xml, are versiunea 1.0 si e encodat.. cu diacritice-->
+<!DOCTYPE persoane SYSTEM "persoane.dtd">           <!-- leaga xml de dtd adica structura acestui xml este def in dtd, SYSTEM-dtd in fisier local-->
+
+<persoane>
+    <persoana id="1">
+        <nume>Popescu</nume>
+        <prenume>Ion</prenume>
+        <varsta>23</varsta>
+        <adresa>
+            <strada>Izvoarelor</strada>
+            <numar>5</numar>
+            <localitate>Pascani</localitate>
+            <judet>Iasi</judet>
+            <tara>Romania</tara>
+        </adresa>
+        <email>tghiorghiu529@gmail.com</email>
+        <telefon>0700000000</telefon>
+        <studii>
+            <universitate>Gheorghe Asachi</universitate>
+            <facultate>Automatica si Calculatoare</facultate>
+            <specializare>CTI</specializare>
+        </studii>
+    </persoana>
+
+    <persoana id="2">
+        <nume>Ionescu</nume>
+        <prenume>Maria</prenume>
+        <varsta>24</varsta>
+        <adresa>
+            <strada>Unirii</strada>
+            <numar>12</numar>
+            <localitate>Iasi</localitate>
+            <judet>Iasi</judet>
+            <tara>Romania</tara>
+        </adresa>
+        <email>maria.ionescu@example.com</email>
+        <telefon>0711111111</telefon>
+        <studii>
+            <universitate>Universitatea Alexandru Ioan Cuza</universitate>
+            <facultate>Informatica</facultate>
+            <specializare>Informatica</specializare>
+        </studii>
+    </persoana>
+
+    <persoana id="3">
+        <nume>Georgescu</nume>
+        <prenume>Andrei</prenume>
+        <varsta>26</varsta>
+        <adresa>
+            <strada>Libertatii</strada>
+            <numar>8</numar>
+            <localitate>Bucuresti</localitate>
+            <judet>Bucuresti</judet>
+            <tara>Romania</tara>
+        </adresa>
+        <email>andrei.georgescu@example.com</email>
+        <telefon>0722222222</telefon>
+        <studii>
+            <universitate>Politehnica Bucuresti</universitate>
+            <facultate>Automatica si Calculatoare</facultate>
+            <specializare>Calculatoare</specializare>
+        </studii>
+    </persoana>
+</persoane> 
