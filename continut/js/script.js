@@ -139,3 +139,57 @@ function insereazaColoana() {
         }
     }
 }
+
+
+
+
+function verificaUtilizator() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'resurse/utilizatori.json', true);
+    xhr.onload = function() {
+        var utilizatori = JSON.parse(this.responseText);
+        var user   = document.getElementById('v-user').value;
+        var parola = document.getElementById('v-parola').value;
+
+        var gasit = false;
+        for (var i = 0; i < utilizatori.length; i++) {
+            if (utilizatori[i].utilizator === user && utilizatori[i].parola === parola) {
+                gasit = true;
+                break;
+            }
+        }
+
+        var rezultat = document.getElementById('rezultat-verificare');
+        if (gasit) {
+            rezultat.innerHTML = ' Utilizator și parolă corecte!';
+            rezultat.style.color = '#1db954';
+        } else {
+            rezultat.innerHTML = ' Utilizator sau parolă incorecte.';
+            rezultat.style.color = '#e30613';
+        }
+    };
+    xhr.send();
+}
+
+function inregistreazaUtilizator() {
+    var form = document.getElementById('form-inregistrare');
+    var date = {
+        utilizator: form.querySelector('#nume_utilizator').value,
+        parola:     form.querySelector('#parola').value,
+        nume:       form.querySelector('#nume').value,
+        prenume:    form.querySelector('#prenume').value,
+        email:      form.querySelector('#email').value
+    };
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/utilizatori', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            alert('Înregistrare reușită!');
+        } else {
+            alert('Eroare la înregistrare.');
+        }
+    };
+    xhr.send(JSON.stringify(date));
+}

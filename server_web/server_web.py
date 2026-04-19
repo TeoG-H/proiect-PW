@@ -2,6 +2,7 @@ import socket
 import os
 import threading
 import gzip
+import json
 
 director_continut = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'continut')
 
@@ -51,16 +52,59 @@ def proceseaza_cererea(clientsocket, address):
             elemente     = linieDeStart.split(' ')
 
             if len(elemente) > 1:
+                metoda      = elemente[0]   # GET sau POST
                 numeResursa = elemente[1]
 
                 # Daca scriem in browser doar "localhost:5678/", il trimitem la "index.html"
                 if numeResursa == '/':
                     numeResursa = '/index.html'
 
-                # lstrip('/') sterge bara de la inceput ca sa putem uni calea corect cu os.path.join
-                cale_fisier = os.path.normpath(os.path.join(director_continut, numeResursa.lstrip('/')))
+                print(f"[{metoda}] Cerere pentru: {numeResursa}")
 
-                print(f"Cerere pentru: {numeResursa}")
+                # ── Tratam cererea POST pentru /api/utilizatori ──
+                if metoda == 'POST' and numeResursa == '/api/utilizatori':
+                    # Corpul cererii vine dupa \r\n\r\n
+                    separator = cerere.find('\r\n\r\n')
+                    corp = cerere[separator + 4:] if separator > -1 else ''
+
+                    try:
+                        date_noi = json.loads(corp)
+
+                        cale_json = os.path.join(director_continut, 'resurse', 'utilizatori.json')
+
+                        # Citim utilizatorii existenti
+                        with open(cale_json, 'r', encoding='utf-8') as f:
+                            utilizatori = json.load(f)
+
+                        # Adaugam utilizatorul nou
+                        utilizatori.append(date_noi)
+
+                        # Salvam inapoi in fisier
+                        with open(cale_json, 'w', encoding='utf-8') as f:
+                            json.dump(utilizatori, f, ensure_ascii=False, indent=2)
+
+                        raspuns_ok = b'{"status": "ok"}'
+                        header  = "HTTP/1.1 200 OK\r\n"
+                        header += f"Content-Length: {len(raspuns_ok)}\r\n"
+                        header += "Content-Type: application/json; charset=utf-8\r\n"
+                        header += "Connection: close\r\n\r\n"
+                        clientsocket.sendall(header.encode('utf-8') + raspuns_ok)
+                        print(f"[+] Utilizator nou inregistrat: {date_noi.get('utilizator', '?')}")
+
+                    except Exception as e:
+                        print(f"Eroare POST: {e}")
+                        raspuns_err = b'{"status": "error"}'
+                        header  = "HTTP/1.1 500 Internal Server Error\r\n"
+                        header += f"Content-Length: {len(raspuns_err)}\r\n"
+                        header += "Content-Type: application/json; charset=utf-8\r\n"
+                        header += "Connection: close\r\n\r\n"
+                        clientsocket.sendall(header.encode('utf-8') + raspuns_err)
+
+                    return  # oprim procesarea, nu mai cautam fisier
+
+                # ── Tratam cererile GET normale ──
+                # lstrip('/') sterge bara de la inceput ca sa putem uni calea corect
+                cale_fisier = os.path.normpath(os.path.join(director_continut, numeResursa.lstrip('/')))
 
                 # Verificam daca fisierul exista
                 if os.path.exists(cale_fisier) and os.path.isfile(cale_fisier):
@@ -128,6 +172,7 @@ print("=" * 55)
 print("  HeiNekenServer pornit pe http://localhost:5678")
 print(f"  Serveste fisiere din: {os.path.abspath(director_continut)}")
 print("  Multithreading & GZIP activ")
+print("  Suport POST /api/utilizatori activ")
 print("=" * 55)
 
 while True:

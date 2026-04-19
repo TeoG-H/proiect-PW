@@ -1,139 +1,108 @@
-<!DOCTYPE html>
-<html lang="ro">
+<div class="card-bloc">
+    <div class="bloc-label">Desen</div>
+    <h2>The First AHH!</h2>
+    <div class="separator"></div>
+    <p>Animație interactivă — treci cu mouse-ul peste stea și urmărește berea cum curge.</p>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Desen Heineken</title>
-    <link rel="stylesheet" href="css/stil.css">
-    <style>
-        .star:hover { fill: gold; transition: 0.5s; }
-        .svg-wrap { display: flex; justify-content: center; margin-top: 10px; }
-    </style>
-</head>
+    <div class="svg-wrap">
+        <svg width="500" height="650" viewBox="0 0 500 650">
+            <defs>
+                <linearGradient id="metalBarrel" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#666" />
+                    <stop offset="30%" stop-color="#bbb" />
+                    <stop offset="55%" stop-color="#ddd" />
+                    <stop offset="80%" stop-color="#aaa" />
+                    <stop offset="100%" stop-color="#555" />
+                </linearGradient>
+                <linearGradient id="metalCap" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#ccc" />
+                    <stop offset="100%" stop-color="#888" />
+                </linearGradient>
+                <linearGradient id="beerG" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#f8cc3c" />
+                    <stop offset="100%" stop-color="#c88010" />
+                </linearGradient>
+                <linearGradient id="glassG" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="rgba(255,255,255,0.6)" />
+                    <stop offset="40%" stop-color="rgba(200,230,255,0.1)" />
+                    <stop offset="90%" stop-color="rgba(255,255,255,0.5)" />
+                </linearGradient>
+                <clipPath id="glassClip">
+                    <polygon points="10,0 90,0 80,140 20,140" />
+                </clipPath>
+            </defs>
 
-<body>
-    <header>
-        <nav>
-            <a href="index.html">Acasă</a>
-            <a href="despre_heineken.html">Despre</a>
-            <a href="inregistreaza.html">Formular</a>
-            <a href="video.html">Video</a>
-            <a href="desen.html" class="nav-activ">Desen</a>
-            <a href="invat.html">Invat</a>
-        </nav>
-        <div class="hero-header">
-            <h1>Heineken</h1>
-            <p class="hero-sub">The First AHH!</p>
-        </div>
-    </header>
+            <rect x="125" y="100" width="250" height="280" fill="url(#metalBarrel)" />
+            <ellipse cx="250" cy="100" rx="125" ry="28" fill="url(#metalCap)" />
+            <ellipse cx="250" cy="380" rx="125" ry="25" fill="#888" />
 
-    <section>
-        <div class="card-bloc">
-            <div class="bloc-label">Desen</div>
-            <h2>The First AHH!</h2>
-            <div class="separator"></div>
-            <p>Animație interactivă — treci cu mouse-ul peste stea și urmărește berea cum curge.</p>
+            <path d="M 127,148 A 123,25 0 0 1 373,148" fill="none" stroke="#555" stroke-width="10" />
+            <path d="M 127,148 A 123,25 0 0 1 373,148" fill="none" stroke="#eee" stroke-width="5" opacity="0.7" />
+            <path d="M 125,240 A 125,28 0 0 1 375,240" fill="none" stroke="#555" stroke-width="12" />
+            <path d="M 125,240 A 125,28 0 0 1 375,240" fill="none" stroke="#eee" stroke-width="6" opacity="0.7" />
+            <path d="M 127,332 A 123,25 0 0 1 373,332" fill="none" stroke="#555" stroke-width="10" />
+            <path d="M 127,332 A 123,25 0 0 1 373,332" fill="none" stroke="#eee" stroke-width="5" opacity="0.7" />
 
-            <div class="svg-wrap">
-                <svg width="500" height="650" viewBox="0 0 500 650">
-                    <defs>
-                        <linearGradient id="metalBarrel" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stop-color="#666" />
-                            <stop offset="30%" stop-color="#bbb" />
-                            <stop offset="55%" stop-color="#ddd" />
-                            <stop offset="80%" stop-color="#aaa" />
-                            <stop offset="100%" stop-color="#555" />
-                        </linearGradient>
-                        <linearGradient id="metalCap" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="#ccc" />
-                            <stop offset="100%" stop-color="#888" />
-                        </linearGradient>
-                        <linearGradient id="beerG" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="#f8cc3c" />
-                            <stop offset="100%" stop-color="#c88010" />
-                        </linearGradient>
-                        <linearGradient id="glassG" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stop-color="rgba(255,255,255,0.6)" />
-                            <stop offset="40%" stop-color="rgba(200,230,255,0.1)" />
-                            <stop offset="90%" stop-color="rgba(255,255,255,0.5)" />
-                        </linearGradient>
-                        <clipPath id="glassClip">
-                            <polygon points="10,0 90,0 80,140 20,140" />
-                        </clipPath>
-                    </defs>
+            <ellipse cx="250" cy="240" rx="80" ry="50" fill="#006c35" />
+            <polygon class="star"
+                points="250,215 257,232 276,232 261,243 267,261 250,250 233,261 239,243 224,232 243,232"
+                fill="#cc0000" />
+            <text x="250" y="272" font-size="13" fill="white" font-weight="bold" font-family="Georgia,serif"
+                text-anchor="middle" letter-spacing="1">HEINEKEN</text>
 
-                    <rect x="125" y="100" width="250" height="280" fill="url(#metalBarrel)" />
-                    <ellipse cx="250" cy="100" rx="125" ry="28" fill="url(#metalCap)" />
-                    <ellipse cx="250" cy="380" rx="125" ry="25" fill="#888" />
+            <rect x="232" y="375" width="36" height="20" rx="5" fill="#999" />
+            <rect x="241" y="393" width="18" height="45" rx="5" fill="#aaa" />
+            <rect x="215" y="383" width="70" height="10" rx="5" fill="#cc0000" />
+            <ellipse cx="250" cy="438" rx="8" ry="4" fill="#888" />
 
-                    <path d="M 127,148 A 123,25 0 0 1 373,148" fill="none" stroke="#555" stroke-width="10" />
-                    <path d="M 127,148 A 123,25 0 0 1 373,148" fill="none" stroke="#eee" stroke-width="5" opacity="0.7" />
-                    <path d="M 125,240 A 125,28 0 0 1 375,240" fill="none" stroke="#555" stroke-width="12" />
-                    <path d="M 125,240 A 125,28 0 0 1 375,240" fill="none" stroke="#eee" stroke-width="6" opacity="0.7" />
-                    <path d="M 127,332 A 123,25 0 0 1 373,332" fill="none" stroke="#555" stroke-width="10" />
-                    <path d="M 127,332 A 123,25 0 0 1 373,332" fill="none" stroke="#eee" stroke-width="5" opacity="0.7" />
+            <rect x="246" y="438" width="8" height="0" rx="3" fill="#f5c030">
+                <animate attributeName="height" from="0" to="42" dur="0.3s" begin="0.5s" fill="freeze" />
+                <animate attributeName="height" from="42" to="0" dur="0.2s" begin="4.0s" fill="freeze" />
+            </rect>
 
-                    <ellipse cx="250" cy="240" rx="80" ry="50" fill="#006c35" />
-                    <polygon class="star" points="250,215 257,232 276,232 261,243 267,261 250,250 233,261 239,243 224,232 243,232" fill="#cc0000" />
-                    <text x="250" y="272" font-size="13" fill="white" font-weight="bold" font-family="Georgia,serif" text-anchor="middle" letter-spacing="1">HEINEKEN</text>
+            <g transform="translate(213, 480)">
+                <path d="M 77,20 Q 105,20 105,60 Q 105,100 75,100" fill="none" stroke="#bbb" stroke-width="10"
+                    stroke-linecap="round" />
+                <path d="M 77,20 Q 98,20 98,60 Q 98,94 75,94" fill="none" stroke="rgba(255,255,255,0.4)"
+                    stroke-width="4" stroke-linecap="round" />
 
-                    <rect x="232" y="375" width="36" height="20" rx="5" fill="#999" />
-                    <rect x="241" y="393" width="18" height="45" rx="5" fill="#aaa" />
-                    <rect x="215" y="383" width="70" height="10" rx="5" fill="#cc0000" />
-                    <ellipse cx="250" cy="438" rx="8" ry="4" fill="#888" />
-
-                    <rect x="246" y="438" width="8" height="0" rx="3" fill="#f5c030">
-                        <animate attributeName="height" from="0" to="42" dur="0.3s" begin="0.5s" fill="freeze" />
-                        <animate attributeName="height" from="42" to="0" dur="0.2s" begin="4.0s" fill="freeze" />
+                <g clip-path="url(#glassClip)">
+                    <rect x="10" y="140" width="80" height="0" fill="url(#beerG)">
+                        <animate attributeName="height" from="0" to="133" dur="3.3s" begin="0.7s" fill="freeze" />
+                        <animate attributeName="y" from="140" to="7" dur="3.3s" begin="0.7s" fill="freeze" />
                     </rect>
-
-                    <g transform="translate(213, 480)">
-                        <path d="M 77,20 Q 105,20 105,60 Q 105,100 75,100" fill="none" stroke="#bbb" stroke-width="10" stroke-linecap="round" />
-                        <path d="M 77,20 Q 98,20 98,60 Q 98,94 75,94" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="4" stroke-linecap="round" />
-
-                        <g clip-path="url(#glassClip)">
-                            <rect x="10" y="140" width="80" height="0" fill="url(#beerG)">
-                                <animate attributeName="height" from="0" to="133" dur="3.3s" begin="0.7s" fill="freeze" />
-                                <animate attributeName="y" from="140" to="7" dur="3.3s" begin="0.7s" fill="freeze" />
-                            </rect>
-                            <circle cx="30" cy="130" r="2.5" fill="rgba(255,230,80,0.7)" opacity="0">
-                                <animate attributeName="cy" values="135;15" dur="2s" begin="2s" repeatCount="indefinite" />
-                                <animate attributeName="opacity" values="0;0.7;0" dur="2s" begin="2s" repeatCount="indefinite" />
-                            </circle>
-                            <circle cx="52" cy="125" r="1.8" fill="rgba(255,230,80,0.6)" opacity="0">
-                                <animate attributeName="cy" values="135;25" dur="1.6s" begin="2.4s" repeatCount="indefinite" />
-                                <animate attributeName="opacity" values="0;0.6;0" dur="1.6s" begin="2.4s" repeatCount="indefinite" />
-                            </circle>
-                            <circle cx="68" cy="130" r="1.4" fill="rgba(255,230,80,0.5)" opacity="0">
-                                <animate attributeName="cy" values="135;35" dur="2.3s" begin="2.8s" repeatCount="indefinite" />
-                                <animate attributeName="opacity" values="0;0.5;0" dur="2.3s" begin="2.8s" repeatCount="indefinite" />
-                            </circle>
-                            <g opacity="0">
-                                <ellipse cx="45" cy="9" rx="37" ry="11" fill="white" />
-                                <ellipse cx="22" cy="5" rx="16" ry="9" fill="white" />
-                                <ellipse cx="45" cy="2" rx="18" ry="8" fill="white" />
-                                <ellipse cx="68" cy="5" rx="14" ry="8" fill="white" />
-                                <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="3.9s" fill="freeze" />
-                            </g>
-                        </g>
-
-                        <polygon points="10,0 90,0 80,140 20,140" fill="url(#glassG)" stroke="rgba(150,200,255,0.7)" stroke-width="2" />
-                        <rect x="10" y="0" width="80" height="6" rx="2" fill="rgba(255,255,255,0.5)" />
-                        <rect x="20" y="137" width="60" height="5" rx="2" fill="rgba(255,255,255,0.3)" />
+                    <circle cx="30" cy="130" r="2.5" fill="rgba(255,230,80,0.7)" opacity="0">
+                        <animate attributeName="cy" values="135;15" dur="2s" begin="2s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0;0.7;0" dur="2s" begin="2s"
+                            repeatCount="indefinite" />
+                    </circle>
+                    <circle cx="52" cy="125" r="1.8" fill="rgba(255,230,80,0.6)" opacity="0">
+                        <animate attributeName="cy" values="135;25" dur="1.6s" begin="2.4s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0;0.6;0" dur="1.6s" begin="2.4s"
+                            repeatCount="indefinite" />
+                    </circle>
+                    <circle cx="68" cy="130" r="1.4" fill="rgba(255,230,80,0.5)" opacity="0">
+                        <animate attributeName="cy" values="135;35" dur="2.3s" begin="2.8s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0;0.5;0" dur="2.3s" begin="2.8s"
+                            repeatCount="indefinite" />
+                    </circle>
+                    <g opacity="0">
+                        <ellipse cx="45" cy="9" rx="37" ry="11" fill="white" />
+                        <ellipse cx="22" cy="5" rx="16" ry="9" fill="white" />
+                        <ellipse cx="45" cy="2" rx="18" ry="8" fill="white" />
+                        <ellipse cx="68" cy="5" rx="14" ry="8" fill="white" />
+                        <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="3.9s" fill="freeze" />
                     </g>
+                </g>
 
-                    <rect x="0" y="600" width="500" height="50" fill="#8B5E3C" />
-                    <rect x="0" y="598" width="500" height="6" fill="#6B3F1E" />
-                </svg>
-            </div>
-        </div>
-    </section>
+                <polygon points="10,0 90,0 80,140 20,140" fill="url(#glassG)" stroke="rgba(150,200,255,0.7)"
+                    stroke-width="2" />
+                <rect x="10" y="0" width="80" height="6" rx="2" fill="rgba(255,255,255,0.5)" />
+                <rect x="20" y="137" width="60" height="5" rx="2" fill="rgba(255,255,255,0.3)" />
+            </g>
 
-    <footer>
-        <hr>
-        &copy; Heineken
-    </footer>
-
-</body>
-
-</html>
+            <rect x="0" y="600" width="500" height="50" fill="#8B5E3C" />
+            <rect x="0" y="598" width="500" height="6" fill="#6B3F1E" />
+        </svg>
+    </div>
+</div>

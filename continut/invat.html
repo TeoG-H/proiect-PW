@@ -1,167 +1,127 @@
-<!DOCTYPE html>
-<html lang="ro">
+<div class="invat-wrap">
 
-<head>
-    <meta charset="utf-8" />
-    <title>Heineken</title>
-    <link rel="stylesheet" href="css/stil.css">
-    <script src="js/script.js" defer></script>   <!--defer spune browserului descarca scriptul in paralel cu incarcarea pag, nu il executa imediat, ruleaza-l dupa ce s-a incarcarca pag-->
-</head>
-
-<body>
-
-    <header>
-        <nav>
-            <a href="index.html">Acasă</a>
-            <a href="despre_heineken.html">Despre</a>
-            <a href="inregistreaza.html">Formular</a>
-            <a href="video.html">Video</a>
-            <a href="desen.html">Desen</a>
-            <a href="invat.html" class="nav-activ">Învăț</a>
+    <aside class="invat-aside card-bloc">
+        <h3>Meniu rapid</h3>
+        <nav class="aside-nav">
+            <a href="#sec1"> Informații</a> <!-- id din aceeasi pagina, cand se apeleaza, nu se schimba pagina-->
+            <a href="#sec2"> Canvas</a>
+            <a href="#sec3"> Tabel</a>
         </nav>
-        <div class="hero-header">
-            <h1>Heineken</h1>
-            <p class="hero-sub">trebuie completat </p>
-        </div>
-    </header>
-
-
-    <div class="invat-wrap">
-
-        <aside class="invat-aside card-bloc">
-            <h3>Meniu rapid</h3>
-            <nav class="aside-nav">
-                <a href="#sec1"> Informații</a>  <!-- id din aceeasi pagina, cand se apeleaza, nu se schimba pagina-->
-                <a href="#sec2"> Canvas</a>
-                <a href="#sec3"> Tabel</a>
-            </nav>
-        </aside>
+    </aside>
 
 
 
-        <div class="sectiuni">
+    <div class="sectiuni">
 
-            <section class="card-bloc" id="sec1">
-                <div class="bloc-label">Secțiunea 1</div>
-                <h2>Informații despre utilizator</h2>
-                <div class="separator"></div>
+        <section class="card-bloc" id="sec1">
+            <div class="bloc-label">Secțiunea 1</div>
+            <h2>Informații despre utilizator</h2>
+            <div class="separator"></div>
 
-                <div class="info-row">
-                    <div class="info-item">
-                        <span class="info-label">Dată & Oră</span>  <!-- cu span stilizez portiuni mici -->
-                        <span class="info-val" id="dataOra">—</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">URL</span>
-                        <span class="info-val" id="url">—</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Locație</span>
-                        <span class="info-val" id="locatie">—</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Browser</span>
-                        <span class="info-val" id="browser">—</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Sistem de operare</span>
-                        <span class="info-val" id="os">—</span>
-                    </div>
+            <div class="info-row">
+                <div class="info-item">
+                    <span class="info-label">Dată & Oră</span> <!-- cu span stilizez portiuni mici -->
+                    <span class="info-val" id="dataOra">—</span>
                 </div>
-            </section>
-
-
-            <section class="card-bloc" id="sec2">
-                <div class="bloc-label">Secțiunea 2</div>
-                <h2>Desenează dreptunghiuri</h2>
-                <div class="separator"></div>
-
-                <div class="canvas-controls">
-                    <label>
-                        Contur
-                        <input type="color" id="culoareContur" value="#00ff64">
-                    </label>
-                    <label>
-                        Umplere
-                        <input type="color" id="culoareFill" value="#006c35">
-                    </label>
-                    <button class="btn-submit" onclick="stergeCanvas()">Șterge canvas</button>
+                <div class="info-item">
+                    <span class="info-label">URL</span>
+                    <span class="info-val" id="url">—</span>
                 </div>
-
-                <canvas id="canvas" width="700" height="380"></canvas>
-
-            </section>
-
-
-
-            <section class="card-bloc" id="sec3">
-                <div class="bloc-label">Secțiunea 3</div>
-                <h2>Modificare dinamică tabel</h2>
-                <div class="separator"></div>
-
-                <div class="tabel-controls">
-                    <label>
-                        Poziție
-                        <input type="number" id="poz" value="1" min="1">
-                    </label>
-                    <label>
-                        Culoare
-                        <input type="color" id="culoareLinie" value="#043d1f">
-                    </label>
-                    <button class="btn-submit" onclick="insereazaLinie()">+ Linie</button>
-                    <button class="btn-submit" onclick="insereazaColoana()">+ Coloană</button>
+                <div class="info-item">
+                    <span class="info-label">Locație</span>
+                    <span class="info-val" id="locatie">—</span>
                 </div>
+                <div class="info-item">
+                    <span class="info-label">Browser</span>
+                    <span class="info-val" id="browser">—</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Sistem de operare</span>
+                    <span class="info-val" id="os">—</span>
+                </div>
+            </div>
+        </section>
 
-                <table id="tabel">
-                    <thead>
-                        <tr>
-                            <th>Sortiment</th>
-                            <th>Țară</th>
-                            <th>Tip</th>
-                            <th>Alcool</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Heineken Original</td>
-                            <td>Olanda</td>
-                            <td>Lager blond</td>
-                            <td>5%</td>
-                        </tr>
-                        <tr>
-                            <td>Heineken Silver</td>
-                            <td>Olanda</td>
-                            <td>Lager ușor</td>
-                            <td>4%</td>
-                        </tr>
-                        <tr>
-                            <td>Heineken 0.0</td>
-                            <td>Olanda</td>
-                            <td>Fără alcool</td>
-                            <td>0%</td>
-                        </tr>
-                        <tr>
-                            <td>Heineken Draught</td>
-                            <td>Olanda</td>
-                            <td>Bere la draft</td>
-                            <td>5%</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
 
-        </div>
+        <section class="card-bloc" id="sec2">
+            <div class="bloc-label">Secțiunea 2</div>
+            <h2>Desenează dreptunghiuri</h2>
+            <div class="separator"></div>
+
+            <div class="canvas-controls">
+                <label>
+                    Contur
+                    <input type="color" id="culoareContur" value="#00ff64">
+                </label>
+                <label>
+                    Umplere
+                    <input type="color" id="culoareFill" value="#006c35">
+                </label>
+                <button class="btn-submit" onclick="stergeCanvas()">Șterge canvas</button>
+            </div>
+
+            <canvas id="canvas" width="700" height="380"></canvas>
+
+        </section>
+
+
+
+        <section class="card-bloc" id="sec3">
+            <div class="bloc-label">Secțiunea 3</div>
+            <h2>Modificare dinamică tabel</h2>
+            <div class="separator"></div>
+
+            <div class="tabel-controls">
+                <label>
+                    Poziție
+                    <input type="number" id="poz" value="1" min="1">
+                </label>
+                <label>
+                    Culoare
+                    <input type="color" id="culoareLinie" value="#043d1f">
+                </label>
+                <button class="btn-submit" onclick="insereazaLinie()">+ Linie</button>
+                <button class="btn-submit" onclick="insereazaColoana()">+ Coloană</button>
+            </div>
+
+            <table id="tabel">
+                <thead>
+                    <tr>
+                        <th>Sortiment</th>
+                        <th>Țară</th>
+                        <th>Tip</th>
+                        <th>Alcool</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Heineken Original</td>
+                        <td>Olanda</td>
+                        <td>Lager blond</td>
+                        <td>5%</td>
+                    </tr>
+                    <tr>
+                        <td>Heineken Silver</td>
+                        <td>Olanda</td>
+                        <td>Lager ușor</td>
+                        <td>4%</td>
+                    </tr>
+                    <tr>
+                        <td>Heineken 0.0</td>
+                        <td>Olanda</td>
+                        <td>Fără alcool</td>
+                        <td>0%</td>
+                    </tr>
+                    <tr>
+                        <td>Heineken Draught</td>
+                        <td>Olanda</td>
+                        <td>Bere la draft</td>
+                        <td>5%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
 
     </div>
 
-
-    <footer>
-        <hr>
-        <p>&copy; Heineken</p>
-    </footer>
-
-
-
-</body>
-
-</html>
+</div>
