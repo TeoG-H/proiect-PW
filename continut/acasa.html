@@ -1,33 +1,76 @@
 <!-- am pus continutul din index -->
 
-<div class="card-bloc">
-    <div class="bloc-label">Bine ai venit</div>
-    <h2>Explorează site-ul</h2>
-    <div class="separator"></div>
-    <p>Descoperă povestea uneia dintre cele mai cunoscute beri din lume, înregistrează-te în comunitatea noastră,
-        urmărește reclame iconice și admiră o animație interactivă creată special pentru tine.</p>
+<!-- acasa.html -->
+
+<div class="card-bloc" style="text-align:center; padding: 40px 40px 32px;">
+    <div class="bloc-label">Amsterdam &bull; 1873 &bull; Est. by Gerard Heineken</div>
+    <h2 style="font-size: clamp(2rem, 6vw, 3.2rem); margin-bottom: 10px;">The First AHH!</h2>
+    <div class="separator" style="margin: 0 auto 18px;"></div>
+    <p style="max-width: 520px; margin: 0 auto; font-size: 0.95rem; line-height: 1.8;">
+        150 de ani de tradiție. Peste 190 de țări. Un singur gust inconfundabil.
+        Explorează universul Heineken!
+    </p>
 </div>
+
+
+
 
 <div class="nav-cards">
 
-    <a class="nav-card" href="despre_heineken.html">
+    <a class="nav-card" onclick="schimbaContinut('despre_heineken')" style="cursor:pointer; position:relative;">
+        <span class="nav-card-num">01</span>
         <div class="nav-card-title">Despre</div>
         <p>Istoria brandului, gama de beri, rețeta secretă și Heineken Experience din Amsterdam.</p>
+        <div class="nav-card-arrow">Explorează &rarr;</div>
     </a>
 
-    <a class="nav-card" href="inregistreaza.html">
-        <div class="nav-card-title">Formular</div>
+    <a class="nav-card" onclick="schimbaContinut('inregistreaza', null, null)" style="cursor:pointer; position:relative;">
+        <span class="nav-card-num">02</span>
+        <div class="nav-card-title">Profil</div>
         <p>Creează-ți contul și spune-ne preferințele tale despre berea Heineken.</p>
+        <div class="nav-card-arrow">Înregistrează-te &rarr;</div>
     </a>
 
-    <a class="nav-card" href="video.html">
-        <div class="nav-card-title">Video</div>
-        <p>Urmărește cele mai memorabile reclame Heineken din toate timpurile.</p>
+    <a class="nav-card" onclick="schimbaContinut('video')" style="cursor:pointer; position:relative;">
+        <span class="nav-card-num">03</span>
+        <div class="nav-card-title">Reclame</div>
+        <p>Cele mai memorabile spoturi publicitare Heineken din toate timpurile.</p>
+        <div class="nav-card-arrow">Urmărește &rarr;</div>
     </a>
 
-    <a class="nav-card" href="desen.html">
-        <div class="nav-card-title">Desen</div>
-        <p>O animație SVG interactivă cu butoiul, robinetul și primul pahar de bere.</p>
+    <a class="nav-card" onclick="schimbaContinut('desen')" style="cursor:pointer; position:relative;">
+        <span class="nav-card-num">04</span>
+        <div class="nav-card-title">Animație</div>
+        <p>Butoiul, robinetul și primul pahar — o animație SVG interactivă.</p>
+        <div class="nav-card-arrow">Privește &rarr;</div>
+    </a>
+
+    <a class="nav-card" onclick="schimbaContinut('invat', null, 'initPagina')" style="cursor:pointer; position:relative;">
+        <span class="nav-card-num">05</span>
+        <div class="nav-card-title">Interactiv</div>
+        <p>Canvas, tabel dinamic și informații live despre browser-ul tău.</p>
+        <div class="nav-card-arrow">Interacționează &rarr;</div>
+    </a>
+
+    <a class="nav-card" onclick="schimbaContinut('persoane', 'js/persoane.js', 'incarcaPersoane')" style="cursor:pointer; position:relative;">
+        <span class="nav-card-num">06</span>
+        <div class="nav-card-title">Persoane</div>
+        <p>Lista persoanelor încărcată dinamic din fișier XML prin AJAX.</p>
+        <div class="nav-card-arrow">Vezi lista &rarr;</div>
+    </a>
+
+    <a class="nav-card" onclick="schimbaContinut('verifica', null, null)" style="cursor:pointer; position:relative;">
+        <span class="nav-card-num">07</span>
+        <div class="nav-card-title">Cont</div>
+        <p>Verifică-ți credențialele și accesează profilul tău Heineken.</p>
+        <div class="nav-card-arrow">Verifică &rarr;</div>
+    </a>
+
+    <a class="nav-card" onclick="schimbaContinut('cumparaturi', 'js/cumparaturi.js', null)" style="cursor:pointer; position:relative;">
+        <span class="nav-card-num">08</span>
+        <div class="nav-card-title">Lista ta</div>
+        <p>Salvează-ți produsele preferate în localStorage sau IndexedDB.</p>
+        <div class="nav-card-arrow">Adaugă &rarr;</div>
     </a>
 
 </div>

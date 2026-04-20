@@ -5,36 +5,62 @@
     <meta charset="utf-8" />
     <title>Heineken</title>
     <link rel="stylesheet" href="css/stil.css">
+    <script src="js/script.js" defer></script> <!--ruleaza dupa ce s-a incarcat html-ul -->
     <!-- rel- tipul de relatie, practic ii spune browserului ca urmatorul fisier e css -->
     <script>
-        function schimbaContinut(resursa, jsFisier, jsFunctie) {
-            fetch(resursa + ".html")
-                .then(function (raspuns) {
-                    return raspuns.text();
-                })
-                .then(function (text) {
-                    document.getElementById("continut").innerHTML = text;
+        async function schimbaContinut(resursa, jsFisier, jsFunctie) {
+        try {
+            const response = await fetch(resursa + '.html'); // trimite o cerere get la server cu resursa
 
-                    if (jsFisier) {
-                        // verificam daca scriptul e deja incarcat
-                        var scriptExistent = document.querySelector('script[src="' + jsFisier + '"]');
-                        if (!scriptExistent) {
-                            var elementScript = document.createElement("script");
-                            elementScript.onload = function() {
-                                if (jsFunctie) window[jsFunctie]();
-                            };
-                            elementScript.src = jsFisier;
-                            document.head.appendChild(elementScript);
-                        } else {
-                            if (jsFunctie) window[jsFunctie]();
+            if (!response.ok) {
+                throw new Error(`Eroare de retea: ${response.status}`);
+            }
+
+            const html = await response.text(); //raspunsul e un obiect si il fac text 
+
+            const container = document.getElementById("continut");  //inlocuieste jos la section cu id continut cu continut 
+            if (!container) return;
+            container.innerHTML = html; //aici inlocuieste practic 
+            
+
+            // ia toate link-urile din nav si scoate clasa nav -activ
+            document.querySelectorAll('nav a').forEach(function(link) {
+                link.classList.remove('nav-activ');
+            });
+            let linkActiv = document.querySelector('nav a[onclick*="' + resursa + '"]'); //cauta link-ul a care contine in onclick numele resuresi
+            //jos in header ai onclick... si cauta care are in tot sirul ala resursa cu numel.. 
+
+            if (linkActiv) linkActiv.classList.add('nav-activ'); //aici o face activa
+
+            if (jsFisier) { //pentru fisierele caur au si parametru un script.js
+                let scriptExistent = document.querySelector(`script[src="${jsFisier}"]`); //cauta in DOM daca exista deja scriptul incarcat 
+
+                if (!scriptExistent) {
+                    //din lab 7
+                    let elementScript = document.createElement('script'); //face un element script 
+                    //cand se incarca 
+                    elementScript.onload = function() {
+                        if (jsFunctie && typeof window[jsFunctie] === "function") {
+                            setTimeout(() => window[jsFunctie](), 50);
                         }
+                    };
+                    elementScript.src = jsFisier;
+                    document.body.appendChild(elementScript);
+                } else {
+                    if (jsFunctie && typeof window[jsFunctie] === "function") {
+                        setTimeout(() => window[jsFunctie](), 50);
                     }
-                })
-                .catch(function (eroare) {
-                    document.getElementById("continut").innerHTML = "<p>Eroare la încărcarea paginii.</p>";
-                    console.error(eroare);
-                });
+                }
+            } else {
+                if (jsFunctie && typeof window[jsFunctie] === "function") {
+                    setTimeout(() => window[jsFunctie](), 50);
+                }
+            }
+
+        } catch (eroare) {
+            console.error('Eroare la schimbarea continutului:', eroare.message);
         }
+    }
     </script>
 </head>
 
@@ -42,15 +68,15 @@
 
     <header>
         <nav>
-            <a onclick="schimbaContinut('acasa')" class="nav-activ">Acasă</a>
+            <a onclick="schimbaContinut('acasa')">Acasă</a>
             <a onclick="schimbaContinut('despre_heineken')">Despre</a>
-            <a onclick="schimbaContinut('inregistreaza', 'js/script.js', null)">Formular</a>
-            <a onclick="schimbaContinut('video')">Video</a>
-            <a onclick="schimbaContinut('desen')">Desen</a>
-            <a onclick="schimbaContinut('invat', 'js/script.js', 'initPagina')" style="cursor:pointer">Învăț</a>
+            <a onclick="schimbaContinut('inregistreaza', null, null)">Profil</a>
+            <a onclick="schimbaContinut('video')">Reclame</a>
+            <a onclick="schimbaContinut('desen')">Animație</a>
+            <a onclick="schimbaContinut('invat', 'js/script.js' , 'initPagina')">Interactiv</a>
             <a onclick="schimbaContinut('persoane', 'js/persoane.js', 'incarcaPersoane')">Persoane</a>
-            <a onclick="schimbaContinut('verifica', 'js/script.js', null)">Verifică</a>
-            <a onclick="schimbaContinut('cumparaturi', 'js/cumparaturi.js', null)" style="cursor:pointer">Cumpărături</a>
+            <a onclick="schimbaContinut('verifica', null, null)">Cont</a>
+            <a onclick="schimbaContinut('cumparaturi', 'js/cumparaturi.js', null)">Lista ta</a>
         </nav>
 
         <div class="hero-header">
@@ -63,7 +89,6 @@
     </section>
 
     <footer>
-        <hr>
         &copy; Heineken
     </footer>
 

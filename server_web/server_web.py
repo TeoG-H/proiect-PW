@@ -1,8 +1,9 @@
 import socket
 import os
-import threading
 import gzip
 import json
+from urllib.parse import unquote_plus
+from concurrent.futures import ThreadPoolExecutor
 
 director_continut = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'continut')
 
@@ -24,19 +25,18 @@ tipuri_continut = {
 }
 
 
-# Aceasta functie va rula in paralel pentru fiecare utilizator care intra pe site
 def proceseaza_cererea(clientsocket, address):
     try:
-        # Citim cererea completa
         cerere = ''
-        clientsocket.settimeout(2)
+        clientsocket.settimeout(2) #daca clientul nu trimite in 2 sec se opreste citirea
         try:
             while True:
-                data = clientsocket.recv(4096)
-                if not data:
+                data = clientsocket.recv(1024) #citeste date 1024 de bytes, returneaza nr de bytes cititi
+                if not data:   #cand nu mai sunt date se opreste 
                     break
-                cerere += data.decode('utf-8', errors='ignore')
-                if '\r\n\r\n' in cerere:
+                cerere += data.decode('utf-8', errors='ignore') #face frumos un string cu cererea, si decodeaza fiecare byte cititi, daca apare cava invalid nu da eroare da ignor 
+                if '\r\n\r\n' in cerere:  #separatorul dintee header-ul HTTP si corpul cererii mi-a picat la exam la RC 
+                    # de ce trebuie sa ma opresc cand vad asta? 
                     break
         except:
             pass
@@ -48,41 +48,37 @@ def proceseaza_cererea(clientsocket, address):
         pozitie = cerere.find('\r\n')
 
         if pozitie > -1:
-            linieDeStart = cerere[0:pozitie]
+            linieDeStart = cerere[0:pozitie] #ia practic headerul 
             elemente     = linieDeStart.split(' ')
 
-            if len(elemente) > 1:
-                metoda      = elemente[0]   # GET sau POST
+            if len(elemente) > 1: #daca cererea e valida are minim metoda si resursa 
+                metoda      = elemente[0]
                 numeResursa = elemente[1]
 
-                # Daca scriem in browser doar "localhost:5678/", il trimitem la "index.html"
                 if numeResursa == '/':
                     numeResursa = '/index.html'
 
                 print(f"[{metoda}] Cerere pentru: {numeResursa}")
 
-                # ── Tratam cererea POST pentru /api/utilizatori ──
-                if metoda == 'POST' and numeResursa == '/api/utilizatori':
-                    # Corpul cererii vine dupa \r\n\r\n
+                # POST /api/utilizatori
+                if metoda == 'POST' and numeResursa == '/api/utilizatori': #cand completez formularul mare si vreau sa salvez in utilizatori.json
                     separator = cerere.find('\r\n\r\n')
-                    corp = cerere[separator + 4:] if separator > -1 else ''
+                    corp = cerere[separator + 4:] if separator > -1 else '' #ia corpul
 
                     try:
-                        date_noi = json.loads(corp)
+                        date_noi = json.loads(corp) #trans textul json in obiect py
 
-                        cale_json = os.path.join(director_continut, 'resurse', 'utilizatori.json')
+                        cale_json = os.path.join(director_continut, 'resurse', 'utilizatori.json') #director_continut e definita sus
 
-                        # Citim utilizatorii existenti
                         with open(cale_json, 'r', encoding='utf-8') as f:
-                            utilizatori = json.load(f)
+                            utilizatori = json.load(f) #il transforma in lista python
 
-                        # Adaugam utilizatorul nou
-                        utilizatori.append(date_noi)
+                        utilizatori.append(date_noi) #baga in lista 
 
-                        # Salvam inapoi in fisier
                         with open(cale_json, 'w', encoding='utf-8') as f:
-                            json.dump(utilizatori, f, ensure_ascii=False, indent=2)
+                            json.dump(utilizatori, f, ensure_ascii=False, indent=2) #suprascrie fisierul, ensure permite diacritice ident -json frumos
 
+                        #face raspunsul in bytes
                         raspuns_ok = b'{"status": "ok"}'
                         header  = "HTTP/1.1 200 OK\r\n"
                         header += f"Content-Length: {len(raspuns_ok)}\r\n"
@@ -92,7 +88,7 @@ def proceseaza_cererea(clientsocket, address):
                         print(f"[+] Utilizator nou inregistrat: {date_noi.get('utilizator', '?')}")
 
                     except Exception as e:
-                        print(f"Eroare POST: {e}")
+                        print(f"Eroare POST utilizatori: {e}")
                         raspuns_err = b'{"status": "error"}'
                         header  = "HTTP/1.1 500 Internal Server Error\r\n"
                         header += f"Content-Length: {len(raspuns_err)}\r\n"
@@ -100,37 +96,80 @@ def proceseaza_cererea(clientsocket, address):
                         header += "Connection: close\r\n\r\n"
                         clientsocket.sendall(header.encode('utf-8') + raspuns_err)
 
-                    return  # oprim procesarea, nu mai cautam fisier
+                    return
 
-                # ── Tratam cererile GET normale ──
-                # lstrip('/') sterge bara de la inceput ca sa putem uni calea corect
+                # POST /api/preferinta
+                #la fel ca mai sus doar ca aici ca raspuns trimite un html
+                if metoda == 'POST' and numeResursa == '/api/preferinta':
+                    separator = cerere.find('\r\n\r\n')
+                    corp = cerere[separator + 4:] if separator > -1 else '' 
+
+                    params = {}
+                    for pereche in corp.split('&'):
+                        if '=' in pereche:
+                            cheie, valoare = pereche.split('=', 1)
+                            params[cheie] = unquote_plus(valoare)
+
+                    nume      = params.get('nume', '?')
+                    prenume   = params.get('prenume', '?')
+                    bere      = params.get('bere', '?')
+                    descriere = params.get('descriere', '')
+
+                    pagina_html = f"""<!DOCTYPE html>
+                        <html lang="ro">
+                        <head>
+                            <meta charset="utf-8">
+                            <title>Multumim!</title>
+                            <link rel="stylesheet" href="/css/stil.css">
+                        </head>
+                        <body>
+                            <div style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
+                                <div class="card-bloc" style="max-width:480px; text-align:center; padding:48px 40px;">
+                                    <div class="bloc-label">Heineken &bull; 1873</div>
+                                    <h2>Multumim, {nume}!</h2>
+                                    <div class="separator" style="margin: 0 auto 20px;"></div>
+                                    <p>Votul tau a fost salvat.</p>
+                                    <p>Berea preferata: <strong style="color:var(--verde-neon);">{bere}</strong></p>
+                                    {"<p style='font-style:italic; color:rgba(240,248,240,0.55);'>&ldquo;" + descriere + "&rdquo;</p>" if descriere else ""}
+                                    <a href="/index.html" class="btn-submit"
+                                    style="display:inline-block; margin-top:24px; text-decoration:none;">
+                                        &larr; Inapoi la site
+                                    </a>
+                                </div>
+                            </div>
+                        </body>
+                        </html>"""
+
+                    continut = pagina_html.encode('utf-8')  #aici de ce nu mai trebuie in bytes raspunsul?
+                    header  = "HTTP/1.1 200 OK\r\n"
+                    header += f"Content-Length: {len(continut)}\r\n"
+                    header += "Content-Type: text/html; charset=utf-8\r\n"
+                    header += "Connection: close\r\n\r\n"
+                    clientsocket.sendall(header.encode('utf-8') + continut)
+                    print(f"[+] Preferinta primita: {nume} {prenume} -> {bere}")
+                    return
+
+                # GET 
                 cale_fisier = os.path.normpath(os.path.join(director_continut, numeResursa.lstrip('/')))
 
-                # Verificam daca fisierul exista
                 if os.path.exists(cale_fisier) and os.path.isfile(cale_fisier):
 
-                    # Determinam Content-Type
                     _, extensie = os.path.splitext(cale_fisier)
                     extensie    = extensie.lower()
-
                     content_type = tipuri_continut.get(extensie, 'application/octet-stream')
 
-                    # Citim fisierul ca bytes
                     with open(cale_fisier, 'rb') as f:
                         continut_fisier = f.read()
 
-                    # Verificam daca browserul suporta gzip
                     suporta_gzip = 'Accept-Encoding' in cerere and 'gzip' in cerere
                     extra_header = ""
 
-                    # Comprimam doar textul (html, css, js, json, xml)
                     if suporta_gzip and extensie in ['.html', '.css', '.js', '.json', '.xml']:
                         continut_final = gzip.compress(continut_fisier)
                         extra_header   = "Content-Encoding: gzip\r\n"
                     else:
                         continut_final = continut_fisier
 
-                    # Construim raspunsul 200 OK
                     header  = "HTTP/1.1 200 OK\r\n"
                     header += f"Content-Length: {len(continut_final)}\r\n"
                     header += f"Content-Type: {content_type}\r\n"
@@ -143,11 +182,7 @@ def proceseaza_cererea(clientsocket, address):
                 else:
                     print(f"EROARE 404: Nu am gasit {cale_fisier}")
 
-                    mesaj_404 = (
-                        "<h1>404 - Resursa nu a fost gasita</h1>"
-                        "<p>Fisierul cerut nu exista pe server.</p>"
-                    ).encode('utf-8')
-
+                    mesaj_404 = b"<h1>404 - Pagina negasita</h1>"
                     header_404  = "HTTP/1.1 404 Not Found\r\n"
                     header_404 += f"Content-Length: {len(mesaj_404)}\r\n"
                     header_404 += "Content-Type: text/html; charset=utf-8\r\n"
@@ -161,22 +196,23 @@ def proceseaza_cererea(clientsocket, address):
         clientsocket.close()
 
 
-# Pornire server
-serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# Permite reutilizarea portului imediat dupa oprire
-serversocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-serversocket.bind(('', 5678))
-serversocket.listen(5)
 
-print("=" * 55)
-print("  HeiNekenServer pornit pe http://localhost:5678")
-print(f"  Serveste fisiere din: {os.path.abspath(director_continut)}")
-print("  Multithreading & GZIP activ")
-print("  Suport POST /api/utilizatori activ")
-print("=" * 55)
+
+
+
+
+
+serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # creeaza un socket nou AF_INET e IPV4, SOCK_STREAM e TCP 
+serversocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) #permite refolosirea portului chiar daca a fost folosit recent 
+serversocket.bind(('', 5678)) #leaga socket  la toate adresele ip('') si la un port 
+serversocket.listen(5)  #asculta, 5 clienti maxim in coada
+
+print(" a pornit serverul ")
+
+
+# ThreadPoolExecutor cu 50 de fire - reutilizate, nu recreate
+pool = ThreadPoolExecutor(max_workers=30) #creeaza mai multe fire de executie care vor rula in paralel, pool e manager de threaduri
 
 while True:
-    (clientsocket, address) = serversocket.accept()
-    fir_executie = threading.Thread(target=proceseaza_cererea, args=(clientsocket, address))
-    fir_executie.daemon = True
-    fir_executie.start()
+    (clientsocket, address) = serversocket.accept()  #asteapta pana un client se conecteaza si returneaza socketul si adresaip exact ca la RC 
+    pool.submit(proceseaza_cererea, clientsocket, address) #trimite o sarcina catre pool, adica ruleaza functia prece.. pe un thread separat 

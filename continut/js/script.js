@@ -144,22 +144,22 @@ function insereazaColoana() {
 
 
 function verificaUtilizator() {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open('GET', 'resurse/utilizatori.json', true);
     xhr.onload = function() {
-        var utilizatori = JSON.parse(this.responseText);
-        var user   = document.getElementById('v-user').value;
-        var parola = document.getElementById('v-parola').value;
+        let utilizatori = JSON.parse(this.responseText);
+        let user   = document.getElementById('v-user').value;
+        let parola = document.getElementById('v-parola').value;
 
-        var gasit = false;
-        for (var i = 0; i < utilizatori.length; i++) {
+        let gasit = false;
+        for (let i = 0; i < utilizatori.length; i++) {
             if (utilizatori[i].utilizator === user && utilizatori[i].parola === parola) {
                 gasit = true;
                 break;
             }
         }
 
-        var rezultat = document.getElementById('rezultat-verificare');
+        let rezultat = document.getElementById('rezultat-verificare');
         if (gasit) {
             rezultat.innerHTML = ' Utilizator și parolă corecte!';
             rezultat.style.color = '#1db954';
@@ -172,8 +172,8 @@ function verificaUtilizator() {
 }
 
 function inregistreazaUtilizator() {
-    var form = document.getElementById('form-inregistrare');
-    var date = {
+    let form = document.getElementById('form-inregistrare');
+    let date = {
         utilizator: form.querySelector('#nume_utilizator').value,
         parola:     form.querySelector('#parola').value,
         nume:       form.querySelector('#nume').value,
@@ -181,7 +181,7 @@ function inregistreazaUtilizator() {
         email:      form.querySelector('#email').value
     };
 
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open('POST', '/api/utilizatori', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = function() {

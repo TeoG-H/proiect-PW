@@ -744,3 +744,67 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+
+
+
+
+
+
+.hn-stat-row {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 10px 24px 32px;
+    flex-wrap: wrap;
+}
+.hn-stat { text-align: center; }
+.hn-stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--verde-neon);
+    letter-spacing: 0.05em;
+    line-height: 1;
+}
+.hn-stat-label {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-slab);
+    font-weight: 600;
+    margin-top: 4px;
+}
+.hn-stat-sep {
+    width: 1px;
+    background: rgba(0,255,100,0.15);
+    align-self: stretch;
+    margin: 4px 0;
+}
+
+/* ── Nav cards îmbunătățite ── */
+.nav-card { position: relative; }
+.nav-card-num {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: rgba(29, 185, 84, 0.3);
+    font-weight: 700;
+}
+.nav-card-arrow {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(29, 185, 84, 0);
+    font-weight: 600;
+    transition: color 0.25s, letter-spacing 0.25s;
+}
+.nav-card:hover .nav-card-arrow {
+    color: var(--verde-neon);
+    letter-spacing: 0.25em;
+}
+
+

@@ -3,62 +3,112 @@
 
 <persoane>
     <persoana id="1">
-        <nume>Popescu</nume>
-        <prenume>Ion</prenume>
-        <varsta>23</varsta>
+        <nume>Heineken</nume>
+        <prenume>Gerard Adriaan</prenume>
+        <varsta>22</varsta>
         <adresa>
-            <strada>Izvoarelor</strada>
-            <numar>5</numar>
-            <localitate>Pascani</localitate>
-            <judet>Iasi</judet>
-            <tara>Romania</tara>
+            <strada>Nieuwezijds Voorburgwal</strada>
+            <numar>42</numar>
+            <localitate>Amsterdam</localitate>
+            <judet>Noord-Holland</judet>
+            <tara>Olanda</tara>
         </adresa>
-        <email>tghiorghiu529@gmail.com</email>
-        <telefon>0700000000</telefon>
+        <email>g.heineken@heineken.com</email>
+        <telefon>-</telefon>
         <studii>
-            <universitate>Gheorghe Asachi</universitate>
-            <facultate>Automatica si Calculatoare</facultate>
-            <specializare>CTI</specializare>
+            <universitate>-</universitate>
+            <facultate>-</facultate>
+            <specializare>Fondator Heineken (1873)</specializare>
         </studii>
+        <functie>Fondator</functie>
+        <an_nastere>1841</an_nastere>
     </persoana>
 
     <persoana id="2">
-        <nume>Ionescu</nume>
-        <prenume>Maria</prenume>
-        <varsta>24</varsta>
+        <nume>Heineken</nume>
+        <prenume>Henry Pierre</prenume>
+        <varsta>55</varsta>
         <adresa>
-            <strada>Unirii</strada>
-            <numar>12</numar>
-            <localitate>Iasi</localitate>
-            <judet>Iasi</judet>
-            <tara>Romania</tara>
+            <strada>Tweede Weteringplantsoen</strada>
+            <numar>21</numar>
+            <localitate>Amsterdam</localitate>
+            <judet>Noord-Holland</judet>
+            <tara>Olanda</tara>
         </adresa>
-        <email>maria.ionescu@example.com</email>
-        <telefon>0711111111</telefon>
+        <email>h.heineken@heineken.com</email>
+        <telefon>-</telefon>
         <studii>
-            <universitate>Universitatea Alexandru Ioan Cuza</universitate>
-            <facultate>Informatica</facultate>
-            <specializare>Informatica</specializare>
+            <universitate>-</universitate>
+            <facultate>-</facultate>
+            <specializare>Expansiune internationala</specializare>
         </studii>
+        <functie>CEO 1917–1940</functie>
+        <an_nastere>1886</an_nastere>
     </persoana>
 
     <persoana id="3">
-        <nume>Georgescu</nume>
-        <prenume>Andrei</prenume>
-        <varsta>26</varsta>
+        <nume>Heineken</nume>
+        <prenume>Alfred Henry</prenume>
+        <varsta>50</varsta>
         <adresa>
-            <strada>Libertatii</strada>
-            <numar>8</numar>
-            <localitate>Bucuresti</localitate>
-            <judet>Bucuresti</judet>
-            <tara>Romania</tara>
+            <strada>Herengracht</strada>
+            <numar>90</numar>
+            <localitate>Amsterdam</localitate>
+            <judet>Noord-Holland</judet>
+            <tara>Olanda</tara>
         </adresa>
-        <email>andrei.georgescu@example.com</email>
-        <telefon>0722222222</telefon>
+        <email>a.heineken@heineken.com</email>
+        <telefon>-</telefon>
         <studii>
-            <universitate>Politehnica Bucuresti</universitate>
-            <facultate>Automatica si Calculatoare</facultate>
-            <specializare>Calculatoare</specializare>
+            <universitate>-</universitate>
+            <facultate>-</facultate>
+            <specializare>Transformare brand global</specializare>
         </studii>
+        <functie>CEO 1971–1989</functie>
+        <an_nastere>1923</an_nastere>
     </persoana>
-</persoane> 
+
+    <persoana id="4">
+        <nume>van Boxmeer</nume>
+        <prenume>Jean-François</prenume>
+        <varsta>58</varsta>
+        <adresa>
+            <strada>Tweede Weteringplantsoen</strada>
+            <numar>21</numar>
+            <localitate>Amsterdam</localitate>
+            <judet>Noord-Holland</judet>
+            <tara>Olanda</tara>
+        </adresa>
+        <email>jf.vanboxmeer@heineken.com</email>
+        <telefon>-</telefon>
+        <studii>
+            <universitate>UCLouvain</universitate>
+            <facultate>Management</facultate>
+            <specializare>Strategie globala</specializare>
+        </studii>
+        <functie>CEO 2005–2020</functie>
+        <an_nastere>1961</an_nastere>
+    </persoana>
+
+    <persoana id="5">
+        <nume>Friese</nume>
+        <prenume>Dolf van den</prenume>
+        <varsta>56</varsta>
+        <adresa>
+            <strada>Tweede Weteringplantsoen</strada>
+            <numar>21</numar>
+            <localitate>Amsterdam</localitate>
+            <judet>Noord-Holland</judet>
+            <tara>Olanda</tara>
+        </adresa>
+        <email>d.vandenfriese@heineken.com</email>
+        <telefon>-</telefon>
+        <studii>
+            <universitate>Erasmus University Rotterdam</universitate>
+            <facultate>Economie</facultate>
+            <specializare>Sustenabilitate si inovatie</specializare>
+        </studii>
+        <functie>CEO 2020 – prezent</functie>
+        <an_nastere>1968</an_nastere>
+    </persoana>
+</persoane>
