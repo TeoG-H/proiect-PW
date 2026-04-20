@@ -12,7 +12,15 @@ function initPagina() {
     /* document-pagina incarcata cu tot ce e in ea, titlu, tabele, paragrafe... apoi cauta elementul cu id-ul...   innerHTML continutul din interiorul elem */
     document.getElementById("dataOra").innerHTML = "se incarcă " + new Date();  /*daca dai refreh rapid vezi asta timp de o sec*/
     document.getElementById("url").innerHTML     = window.location.href;  /* window  e fereastra browserului, adica mediul in care ruleaza pag, location contine inf despre protocol, domeniu, calea, param URL,   href e adresa completa a pag*/
-    document.getElementById("locatie").innerHTML = window.navigator.language + " / " + window.navigator.languages.join(", ");  /*language- limba rincipala a browserului si languages sunt limbile in ordinea preferintei  */
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            document.getElementById("locatie").innerHTML =
+                "Lat: " + position.coords.latitude.toFixed(4) +
+                " / Long: " + position.coords.longitude.toFixed(4);
+        }, function() {
+            document.getElementById("locatie").innerHTML = "Acces refuzat";
+        });
+    }
     document.getElementById("browser").innerHTML = window.navigator.userAgent;  /* https://www.w3schools.com/jsref/prop_nav_useragent.asp */
     document.getElementById("os").innerHTML      = window.navigator.platform;
     /* https://www.w3schools.com/jsref/obj_navigator.asp */
@@ -161,8 +169,13 @@ function verificaUtilizator() {
 
         let rezultat = document.getElementById('rezultat-verificare');
         if (gasit) {
-            rezultat.innerHTML = ' Utilizator și parolă corecte!';
+            rezultat.innerHTML = ' Conectare reuşită!';
             rezultat.style.color = '#1db954';
+
+            // ← salvezi in sessionStorage
+            sessionStorage.setItem('utilizatorLogat', user);
+            afiseazaUtilizatorLogat(); // actualizezi imediat UI-ul
+        
         } else {
             rezultat.innerHTML = ' Utilizator sau parolă incorecte.';
             rezultat.style.color = '#e30613';
@@ -171,15 +184,72 @@ function verificaUtilizator() {
     xhr.send();
 }
 
+
+function afiseazaUtilizatorLogat() {
+    let user = sessionStorage.getItem('utilizatorLogat');
+    let el = document.getElementById('user-logat-footer');
+    if (!el) return;
+
+    if (user) {
+        el.textContent = '👤 ' + user;
+        el.style.display = 'block';
+    } else {
+        el.style.display = 'none';
+    }
+}
+
+// la fiecare incarcare de pagina verifici
+window.addEventListener('load', afiseazaUtilizatorLogat);
+
+
+
 function inregistreazaUtilizator() {
-    let form = document.getElementById('form-inregistrare');
-    let date = {
-        utilizator: form.querySelector('#nume_utilizator').value,
-        parola:     form.querySelector('#parola').value,
-        nume:       form.querySelector('#nume').value,
-        prenume:    form.querySelector('#prenume').value,
-        email:      form.querySelector('#email').value
-    };
+     let form = document.getElementById('form-inregistrare');
+
+    let utilizator = form.querySelector('#nume_utilizator').value.trim();
+    let parola     = form.querySelector('#parola').value.trim();
+    let nume       = form.querySelector('#nume').value.trim();
+    let prenume    = form.querySelector('#prenume').value.trim();
+    let email      = form.querySelector('#email').value.trim();
+    let nr_tel     = form.querySelector('#nr_tel').value.trim();
+
+    // ── Validări ──────────────────────────────────────────────
+
+    if (!utilizator) {
+        alert('Numele de utilizator este obligatoriu.');
+        return;
+    }
+    if (utilizator.length < 3) {
+        alert('Numele de utilizator trebuie să aibă cel puțin 3 caractere.');
+        return;
+    }
+
+    if (!parola) {
+        alert('Parola este obligatorie.');
+        return;
+    }
+    if (parola.length < 6) {
+        alert('Parola trebuie să aibă cel puțin 6 caractere.');
+        return;
+    }
+
+    // regex simplu pentru email: ceva@ceva.ceva
+    let regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (email && !regexEmail.test(email)) {
+        alert('Adresa de email nu este validă.');
+        return;
+    }
+
+    // exact 10 cifre pentru telefon românesc
+    let regexTel = /^\d{10}$/;
+    if (nr_tel && !regexTel.test(nr_tel)) {
+        alert('Numărul de telefon trebuie să conțină exact 10 cifre.');
+        return;
+    }
+
+    // ── Trimitere ─────────────────────────────────────────────
+
+    let date = { utilizator, parola, nume, prenume, email, nr_tel };
 
     let xhr = new XMLHttpRequest();
     xhr.open('POST', '/api/utilizatori', true);
@@ -187,6 +257,7 @@ function inregistreazaUtilizator() {
     xhr.onload = function() {
         if (xhr.status === 200) {
             alert('Înregistrare reușită!');
+            form.reset(); 
         } else {
             alert('Eroare la înregistrare.');
         }

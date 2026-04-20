@@ -16,5 +16,20 @@
     "nume": "xczvcx",
     "prenume": "zxc",
     "email": "xzcvxz"
+  },
+  {
+    "utilizator": "teo",
+    "parola": "teod",
+    "nume": "Teodor",
+    "prenume": "Ghiorghiu",
+    "email": "teodor.ghiorghiu@gmail.com"
+  },
+  {
+    "utilizator": "trr",
+    "parola": "trrtrr",
+    "nume": "Teodor",
+    "prenume": "bdbd",
+    "email": "teodor.ghiorghiu@gmail.com",
+    "nr_tel": ""
   }
 ]
