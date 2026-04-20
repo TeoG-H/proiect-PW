@@ -5,11 +5,20 @@
     <meta charset="utf-8" />
     <title>Heineken</title>
     <link rel="stylesheet" href="css/stil.css">
-    <script src="js/script.js" defer></script> <!--ruleaza dupa ce s-a incarcat html-ul -->
+    <!--<script src="js/script.js" defer></script> --> <!--ruleaza dupa ce s-a incarcat html-ul -->
     <!-- rel- tipul de relatie, practic ii spune browserului ca urmatorul fisier e css -->
     <script>
         async function schimbaContinut(resursa, jsFisier, jsFunctie) {
         try {
+
+            //reparatie eroare in consola cu info
+            if (window.intervalInfoBrowser) {
+                clearInterval(window.intervalInfoBrowser);
+                window.intervalInfoBrowser = null;
+            }
+
+
+
             const response = await fetch(resursa + '.html'); // trimite o cerere get la server cu resursa
 
             if (!response.ok) {
@@ -32,20 +41,20 @@
 
             if (linkActiv) linkActiv.classList.add('nav-activ'); //aici o face activa
 
-            if (jsFisier) { //pentru fisierele caur au si parametru un script.js
-                let scriptExistent = document.querySelector(`script[src="${jsFisier}"]`); //cauta in DOM daca exista deja scriptul incarcat 
+            if (jsFisier) { //pentru fisierele care au si parametru un script.js
+                let scriptExistent = document.querySelector(`script[src="${jsFisier}"]`); //cauta in DOM daca exista deja scriptul incarcat adica, cauta un element <script> care are atributul src="js/.." vezi in elements in inspect
 
                 if (!scriptExistent) {
                     //din lab 7
-                    let elementScript = document.createElement('script'); //face un element script 
-                    //cand se incarca 
+                    let elementScript = document.createElement('script'); //face un element de tipul <script /script>
+                   //cand se incarca , adica dupa ce browserul a bagat scriptul, l-a descarcat si acum ruleaza functia 
                     elementScript.onload = function() {
-                        if (jsFunctie && typeof window[jsFunctie] === "function") {
-                            setTimeout(() => window[jsFunctie](), 50);
+                        if (jsFunctie && typeof window[jsFunctie] === "function") { // verifica da jsFunctie exista (ca spre exemplu la verificare am scris null) si daca exista functia in window
+                            setTimeout(() => window[jsFunctie](), 50); // aman putin sa se incarce si vezi ca se apeleaza cand am  ()
                         }
                     };
-                    elementScript.src = jsFisier;
-                    document.body.appendChild(elementScript);
+                    elementScript.src = jsFisier; //atribuie la elementScript creat mai sus , ca script fisierul...  sa fie practis src="nume fis"
+                    document.body.appendChild(elementScript);//acum il baga in pagina
                 } else {
                     if (jsFunctie && typeof window[jsFunctie] === "function") {
                         setTimeout(() => window[jsFunctie](), 50);
@@ -57,10 +66,22 @@
                 }
             }
 
+            let sunet = document.getElementById('sunet-bere');
+            sunet.currentTime = 0;
+            sunet.play();
+
+            if (resursa === 'desen') {
+                let sunetPahar = document.getElementById('sunet-pahar');
+                sunetPahar.currentTime = 0;
+                setTimeout(() => sunetPahar.play(), 800); // putin dupa sunetul de sticla
+            }
+
         } catch (eroare) {
             console.error('Eroare la schimbarea continutului:', eroare.message);
         }
+        
     }
+    
     </script>
 </head>
 
@@ -69,13 +90,13 @@
     <header>
         <nav>
             <a onclick="schimbaContinut('acasa')">Acasă</a>
-            <a onclick="schimbaContinut('despre_heineken')">Despre</a>
+            <a onclick="schimbaContinut('despre_heineken', 'js/script.js', null)">Despre</a>
             <a onclick="schimbaContinut('inregistreaza', null, null)">Profil</a>
             <a onclick="schimbaContinut('video')">Reclame</a>
             <a onclick="schimbaContinut('desen')">Primul pahar</a>
             <a onclick="schimbaContinut('invat', 'js/script.js' , 'initPagina')">Interactiv</a>
             <a onclick="schimbaContinut('persoane', 'js/persoane.js', 'incarcaPersoane')">Persoane</a>
-            <a onclick="schimbaContinut('verifica', null, null)">Cont</a>
+            <a onclick="schimbaContinut('verifica','js/script.js', null)">Cont</a>
             <a onclick="schimbaContinut('cumparaturi', 'js/cumparaturi.js', null)">Lista ta</a>
         </nav>
 
@@ -84,6 +105,9 @@
             <p class="hero-sub">Bere premium. Pasiune autentică. Din 1873.</p>
         </div>
     </header>
+
+    <audio id="sunet-bere" src="/sunete/sticla_deschisa.mp3" preload="auto"></audio>
+    <audio id="sunet-pahar" src="/sunete/umple_halba.mp3" preload="auto"></audio>
 
     <section id="continut">
     </section>

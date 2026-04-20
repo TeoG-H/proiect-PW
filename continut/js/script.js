@@ -1,13 +1,26 @@
 
-window.addEventListener("load", initPagina);  /* window-intreaga pag, addEv.. asculta un ev, load- la incarcare, apeleaza intiPag */
+//window.addEventListener("load", initPagina);  /* window-intreaga pag, addEv.. asculta un ev, load- la incarcare, apeleaza intiPag */
+//imi dadea eroare in consola, o aplez doar cand schimb pagina in invat
 
 let x1 = 0;
 let y1 = 0; /*coord primului click*/
 let clickuri = 0; /*contor pt click-uri */
 let ctx;  /* context object */
 
+window.intervalInfoBrowser = null;
 
 function initPagina() {
+
+    //asta e verificarea aia a mea nebuna sa nu ruleze in continuare
+    let dataOra = document.getElementById("dataOra");
+    let url = document.getElementById("url");
+    let locatie = document.getElementById("locatie");
+    let browser = document.getElementById("browser");
+    let os = document.getElementById("os");
+    let canvas = document.getElementById("canvas");
+    if (!dataOra || !url  || !canvas) {
+        return;
+    }
 
     /* document-pagina incarcata cu tot ce e in ea, titlu, tabele, paragrafe... apoi cauta elementul cu id-ul...   innerHTML continutul din interiorul elem */
     document.getElementById("dataOra").innerHTML = "se incarcă " + new Date();  /*daca dai refreh rapid vezi asta timp de o sec*/
@@ -33,6 +46,10 @@ function initPagina() {
 
 
 function infoBrowser() {
+    //daca am schimbat pagina sa nu ruleze in continuare
+    let elDataOra = document.getElementById("dataOra");
+    if (!elDataOra) return;
+
     let d = new Date();  /*d primeste timpul curent*/
 
     let dataFormatata = d.toLocaleDateString("ro-RO", {
@@ -114,6 +131,15 @@ function insereazaLinie() {
     let poz     = parseInt(document.getElementById("poz").value); /*inputul da text si eu il iau ca nr */
     let culoare = document.getElementById("culoareLinie").value;
 
+    if (isNaN(poz) || poz < 0) {
+        poz = t.rows.length;
+    }
+
+    if (poz > t.rows.length) {
+        poz = t.rows.length;
+    }
+
+
     let nrColoane = t.rows[0].cells.length; /* ia nr de celule dintr-un rand ca sa vad nr de col https://www.w3schools.com/jsref/dom_obj_table.asp */
     let rand = t.insertRow(poz);  /* https://www.w3schools.com/jsref/coll_table_rows.asp */ 
 
@@ -132,6 +158,15 @@ function insereazaColoana() {
     let poz     = parseInt(document.getElementById("poz").value); 
     let culoare = document.getElementById("culoareLinie").value;
 
+    if (isNaN(poz) || poz < 0) {
+        poz = t.rows[0].cells.length;
+    }
+
+    if (poz > t.rows[0].cells.length) {
+        poz = t.rows[0].cells.length;
+    }
+
+    
     let numeColoana = window.prompt("Introdu numele coloanei noi:");
 
     for (let i = 0; i < t.rows.length; i++) {

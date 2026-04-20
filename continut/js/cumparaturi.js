@@ -6,31 +6,35 @@ class Produs {
     }
 }
 
+//clasa de baza
 class Stocare {
     salveaza(produs) {}
     incarca(callback) {}
 }
 
-class StorareLocalStorage extends Stocare {
+
+class StocareLocalStorage extends Stocare {
     salveaza(produs) {
-        var produse = JSON.parse(localStorage.getItem('cumparaturi') || '[]');
-        produse.push(produs);
-        localStorage.setItem('cumparaturi', JSON.stringify(produse));
+        let produse = JSON.parse(localStorage.getItem('cumparaturi') || '[]');// ia din local itemul de la cheia cumparaturi care arata ceva de genul'[{"id":1,"nume":"Heineken","cantitate":"6 buc"}]'  si || [] in caz de e gol   JSON.parse il trans in obiect JAVA
+        produse.push(produs); //adauga la sfarsit 
+        localStorage.setItem('cumparaturi', JSON.stringify(produse)); //pune inapoi in local 
     }
     incarca(callback) {
-        var produse = JSON.parse(localStorage.getItem('cumparaturi') || '[]');
+        let produse = JSON.parse(localStorage.getItem('cumparaturi') || '[]');
         callback(produse);
     }
 }
 
-class StorareIndexedDB extends Stocare {
+class StocareIndexedDB extends Stocare {
     constructor() {
         super();
         this.db = null;
-        var request = indexedDB.open('cumparaturi_db', 1);
-        request.onupgradeneeded = function(e) {
-            var db = e.target.result;
+        // https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB
+        let request = indexedDB.open('cumparaturi_db', 1);// se incearca deschidere bazei de date, cu versiunea 1
+        request.onupgradeneeded = function(e) { // ce se intampla cand bd trebuie creata sau actualizata 
+            let db = e.target.result;  // din eveniment extrag bd 
             if (!db.objectStoreNames.contains('produse')) {
+                //daca nu e creatobjectStor, il creez
                 db.createObjectStore('produse', { keyPath: 'id' });
             }
         };
@@ -40,34 +44,35 @@ class StorareIndexedDB extends Stocare {
         };
     }
     salveaza(produs) {
-        var tx = this.db.transaction('produse', 'readwrite');
+        let tx = this.db.transaction('produse', 'readwrite');
         tx.objectStore('produse').add(produs);
     }
     incarca(callback) {
         if (!this.db) return;
-        var tx = this.db.transaction('produse', 'readonly');
-        var request = tx.objectStore('produse').getAll();
+        let tx = this.db.transaction('produse', 'readonly');
+        let request = tx.objectStore('produse').getAll();
         request.onsuccess = function(e) { callback(e.target.result); };
     }
 }
 
-var worker = new Worker('js/worker.js');
+let worker = new Worker('js/worker.js'); // ruleaza in paralele cu scriptul principal
 
-// worker primeste UN singur produs, il trimite inapoi confirmat
-// worker.onmessage nu mai salveaza, doar afiseaza - salvarea s-a facut deja in adaugaProdus
+
+
 worker.onmessage = function(e) {
-    storareActiva.incarca(afiseazaProduse); // doar reafiseaza
+    stocareActiva.incarca(afiseazaProduse); // doar reafiseaza
 };
 
-var storareActiva = new StorareLocalStorage();
+var stocareActiva = new StocareLocalStorage(); // implicit e asta, ca e si prima in select in html
 
+//ascult pagina daca vine un eveniment de tip change de la tip-stocare
 document.addEventListener('change', function(e) {
     if (e.target && e.target.id === 'tip-stocare') {
         if (e.target.value === 'indexedDB') {
-            storareActiva = new StorareIndexedDB();
+            stocareActiva = new StocareIndexedDB();
         } else {
-            storareActiva = new StorareLocalStorage();
-            storareActiva.incarca(afiseazaProduse);
+            stocareActiva = new StocareLocalStorage();
+            stocareActiva.incarca(afiseazaProduse);
         }
     }
 });
@@ -81,24 +86,25 @@ function adaugaProdus() {
         return;
     }
 
-    var produs = new Produs(Date.now(), nume, cantitate);
+    let produs = new Produs(Date.now(), nume, cantitate); // ca sa am id unic, pun timpul curent 
 
-    // salvam INAINTE sa trimitem la worker
-    storareActiva.salveaza(produs);
+    // salvam inainte sa trimitem la worker
+    stocareActiva.salveaza(produs);
 
-    // notificam worker-ul cu UN singur produs
+    // notificam worker-ul cu un produs
     worker.postMessage(produs);
 
+    //resetam 
     document.getElementById('nume-produs').value = '';
     document.getElementById('cantitate-produs').value = '';
 }
 
 function afiseazaProduse(produse) {
-    var tbody = document.getElementById('lista-produse');
+    let tbody = document.getElementById('lista-produse');
     if (!tbody) return;
     tbody.innerHTML = '';
-    for (var i = 0; i < produse.length; i++) {
-        var rand = '<tr>';
+    for (let i = 0; i < produse.length; i++) {
+        let rand = '<tr>';
         rand += '<td>' + (i + 1) + '</td>';
         rand += '<td>' + produse[i].nume + '</td>';
         rand += '<td>' + produse[i].cantitate + '</td>';
@@ -107,5 +113,5 @@ function afiseazaProduse(produse) {
     }
 }
 
-// la incarcare afisam ce e salvat
-storareActiva.incarca(afiseazaProduse);
+// la incarcare afiseaza ce e salvat
+stocareActiva.incarca(afiseazaProduse);

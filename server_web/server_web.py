@@ -22,6 +22,7 @@ tipuri_continut = {
     '.gif':  'image/gif',
     '.ico':  'image/x-icon',
     '.mp4':  'video/mp4',
+    '.mp3': 'audio/mpeg',
 }
 
 
