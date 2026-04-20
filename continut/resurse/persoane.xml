@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>              <!--  documentul este in format xml, are versiunea 1.0 si e encodat.. cu diacritice-->
 <!DOCTYPE persoane SYSTEM "persoane.dtd">           <!-- leaga xml de dtd adica structura acestui xml este def in dtd, SYSTEM-dtd in fisier local-->
-
 <persoane>
     <persoana id="1">
         <nume>Heineken</nume>
         <prenume>Gerard Adriaan</prenume>
-        <varsta>22</varsta>
         <adresa>
             <strada>Nieuwezijds Voorburgwal</strada>
             <numar>42</numar>
@@ -13,21 +11,18 @@
             <judet>Noord-Holland</judet>
             <tara>Olanda</tara>
         </adresa>
-        <email>g.heineken@heineken.com</email>
-        <telefon>-</telefon>
-        <studii>
-            <universitate>-</universitate>
-            <facultate>-</facultate>
-            <specializare>Fondator Heineken (1873)</specializare>
-        </studii>
+        <perioada_activitate>
+            <inceput>1873</inceput>
+            <sfarsit>1900</sfarsit>
+        </perioada_activitate>
         <functie>Fondator</functie>
         <an_nastere>1841</an_nastere>
+        <an_deces>1893</an_deces>
     </persoana>
 
     <persoana id="2">
         <nume>Heineken</nume>
         <prenume>Henry Pierre</prenume>
-        <varsta>55</varsta>
         <adresa>
             <strada>Tweede Weteringplantsoen</strada>
             <numar>21</numar>
@@ -35,21 +30,18 @@
             <judet>Noord-Holland</judet>
             <tara>Olanda</tara>
         </adresa>
-        <email>h.heineken@heineken.com</email>
-        <telefon>-</telefon>
-        <studii>
-            <universitate>-</universitate>
-            <facultate>-</facultate>
-            <specializare>Expansiune internationala</specializare>
-        </studii>
+        <perioada_activitate>
+            <inceput>1917</inceput>
+            <sfarsit>1940</sfarsit>
+        </perioada_activitate>
         <functie>CEO 1917–1940</functie>
         <an_nastere>1886</an_nastere>
+        <an_deces>1942</an_deces>
     </persoana>
 
     <persoana id="3">
         <nume>Heineken</nume>
         <prenume>Alfred Henry</prenume>
-        <varsta>50</varsta>
         <adresa>
             <strada>Herengracht</strada>
             <numar>90</numar>
@@ -57,21 +49,18 @@
             <judet>Noord-Holland</judet>
             <tara>Olanda</tara>
         </adresa>
-        <email>a.heineken@heineken.com</email>
-        <telefon>-</telefon>
-        <studii>
-            <universitate>-</universitate>
-            <facultate>-</facultate>
-            <specializare>Transformare brand global</specializare>
-        </studii>
+        <perioada_activitate>
+            <inceput>1971</inceput>
+            <sfarsit>1989</sfarsit>
+        </perioada_activitate>
         <functie>CEO 1971–1989</functie>
         <an_nastere>1923</an_nastere>
+        <an_deces>2002</an_deces>
     </persoana>
 
     <persoana id="4">
         <nume>van Boxmeer</nume>
         <prenume>Jean-François</prenume>
-        <varsta>58</varsta>
         <adresa>
             <strada>Tweede Weteringplantsoen</strada>
             <numar>21</numar>
@@ -79,21 +68,18 @@
             <judet>Noord-Holland</judet>
             <tara>Olanda</tara>
         </adresa>
-        <email>jf.vanboxmeer@heineken.com</email>
-        <telefon>-</telefon>
-        <studii>
-            <universitate>UCLouvain</universitate>
-            <facultate>Management</facultate>
-            <specializare>Strategie globala</specializare>
-        </studii>
+        <perioada_activitate>
+            <inceput>2005</inceput>
+            <sfarsit>2020</sfarsit>
+        </perioada_activitate>
         <functie>CEO 2005–2020</functie>
         <an_nastere>1961</an_nastere>
+        <an_deces>-</an_deces>
     </persoana>
 
     <persoana id="5">
         <nume>Friese</nume>
         <prenume>Dolf van den</prenume>
-        <varsta>56</varsta>
         <adresa>
             <strada>Tweede Weteringplantsoen</strada>
             <numar>21</numar>
@@ -101,14 +87,12 @@
             <judet>Noord-Holland</judet>
             <tara>Olanda</tara>
         </adresa>
-        <email>d.vandenfriese@heineken.com</email>
-        <telefon>-</telefon>
-        <studii>
-            <universitate>Erasmus University Rotterdam</universitate>
-            <facultate>Economie</facultate>
-            <specializare>Sustenabilitate si inovatie</specializare>
-        </studii>
-        <functie>CEO 2020 – prezent</functie>
+        <perioada_activitate>
+            <inceput>2020</inceput>
+            <sfarsit>prezent</sfarsit>
+        </perioada_activitate>
+        <functie>CEO 2020–prezent</functie>
         <an_nastere>1968</an_nastere>
+        <an_deces>-</an_deces>
     </persoana>
 </persoane>

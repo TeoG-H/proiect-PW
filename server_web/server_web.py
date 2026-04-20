@@ -37,6 +37,22 @@ def proceseaza_cererea(clientsocket, address):
                 cerere += data.decode('utf-8', errors='ignore') #face frumos un string cu cererea, si decodeaza fiecare byte cititi, daca apare cava invalid nu da eroare da ignor 
                 if '\r\n\r\n' in cerere:  #separatorul dintee header-ul HTTP si corpul cererii mi-a picat la exam la RC 
                     # de ce trebuie sa ma opresc cand vad asta? 
+                    header_part = cerere.split('\r\n\r\n')[0]
+                    corp_primit = cerere.split('\r\n\r\n', 1)[1]
+                    
+                    content_length = 0
+                    for linie in header_part.split('\r\n'):
+                        if linie.lower().startswith('content-length:'):
+                            content_length = int(linie.split(':')[1].strip())
+                    
+                    # citeste pana avem tot corpul
+                    while len(corp_primit.encode('utf-8')) < content_length:
+                        data = clientsocket.recv(4096)
+                        if not data:
+                            break
+                        corp_primit += data.decode('utf-8', errors='ignore')
+                    
+                    cerere = header_part + '\r\n\r\n' + corp_primit
                     break
         except:
             pass
@@ -114,6 +130,9 @@ def proceseaza_cererea(clientsocket, address):
                     prenume   = params.get('prenume', '?')
                     bere      = params.get('bere', '?')
                     descriere = params.get('descriere', '')
+
+                    print(f"DEBUG corp: {corp}")
+                    print(f"DEBUG params: {params}")
 
                     pagina_html = f"""<!DOCTYPE html>
                         <html lang="ro">

@@ -3,6 +3,7 @@
     <h2>The First Ahhh!</h2>
     <div class="separator"></div>
 
+    <!-- cerinte din lab 2 text bold, italic, bold+italic, paragraf, link, imagine, tabel, lista cu nr romane si iframe   -->
     <p>
         <b>Heineken</b> este una dintre cele mai cunoscute mărci de bere din lume, originară din Amsterdam.
         Considerată o <i>bere premium</i>, aceasta este apreciată pentru gustul său echilibrat și pentru
@@ -95,22 +96,24 @@
 
     <p>Completează formularul de mai jos și spune-ne ce tip de bere Heineken preferi și de ce.</p>
 
-    <form class="form-stilizat" id="form-preferinta" method="POST" action="/api/preferinta">
+    <form class="form-stilizat" id="form-preferinta" method="POST" action="/api/preferinta"> <!-- aici ii spun ca atunci cans apesi pe trimite face cerere post la server cate /api/preferina-->
+        <!-- https://www.w3schools.com/html/html_forms_attributes.asp -->
+
 
         <div class="form-cols">
             <div class="form-group">
                 <label for="nume">Nume</label>
-                <input type="text" id="nume" name="nume" placeholder="ex: Ion">
+                <input type="text" id="nume" name="nume" placeholder="ex: Ion" required >  <!-- id e unic in pag si se foloseste pt css, java si leg cu label si name  e numele cu care se trimite la server nume=...ce am completat-->
             </div>
             <div class="form-group">
                 <label for="prenume">Prenume</label>
-                <input type="text" id="prenume" name="prenume" placeholder="ex: Popescu">
+                <input type="text" id="prenume" name="prenume" placeholder="ex: Popescu" required>
             </div>
         </div>
 
         <div class="form-group">
             <label for="bere">Tip bere preferat</label>
-            <select id="bere" name="bere">
+            <select id="bere" name="bere" required>
                 <option value="Heineken Original">Heineken Original</option>
                 <option value="Heineken Silver">Heineken Silver</option>
                 <option value="Heineken 0.0">Heineken 0.0</option>
@@ -125,7 +128,7 @@
         </div>
 
         <div class="form-check">
-            <input type="checkbox" id="major" name="major">
+            <input type="checkbox" id="major" name="major" required>
             <label for="major">Confirm că am peste 18 ani</label>
         </div>
 
