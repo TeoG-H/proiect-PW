@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap');
 
 :root {
@@ -14,57 +13,56 @@
     --card-border:     rgba(0, 255, 100, 0.12);
 }
 
-/*  *selecteaza toate el, ::before ::after pseudo-el si elemin marginile ca sa controlez mai usor ca spre ex h1, body toate au margini si padding */
-/* border-box e faza cum se calculeza dim, vezi notepad */
+/* selecteaza toate el, ::before ::after pseudo-el si elimina marginile ca sa controlez mai usor */
+/* border-box = dimensiunile includ padding si border */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+
 
 
 body {
     font-family: 'Montserrat';
-    font-weight: 400; /*grosime*/
+    font-weight: 400;
     font-size: 16px;
-    line-height: 1.75; /*distanta intre linii sa para premium  :))*/
+    line-height: 1.75;
     color: var(--text-clar);
 
     background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url("../imagini/4.jpg");
-    background-size: cover; /*imaginea se mareste pana acopera ecranul*/
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed; /*sa fie fixa la scroll*/
+    background-attachment: fixed;
 }
 
 
 
-
-
-/* navigatia toata */
-/* tag semantic */
+/* bara nav */ 
 nav {
-    background-image:linear-gradient(rgba(0,0,0,0.62), rgba(0,0,0,0.62)),  /*mai intunecat decat fundalul*/
+    background-image: linear-gradient(rgba(0,0,0,0.62), rgba(0,0,0,0.62)),
         url("../imagini/4.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
 
-    padding: 14px 24px;  /*14 sus-jos, 24 stg-dr  (trebuie sa fac cu ecran mic sa se modifice) */
+    padding: 14px 24px;
     display: flex;
     justify-content: center;
     gap: 6px;
-    border-bottom: 1px solid rgba(0,255,100,0.1); /*linia aia mica verde deschis*/
-    position: sticky; /*sa ramana lipita sus cand dau scroll*/
+    border-bottom: 1px solid rgba(0,255,100,0.1);
+    position: sticky;
+    top: 0;
 }
 
-/* ficare patratel din bara */
-nav a { /*cand nu are , e a din nav adica linkurile vezi tabel curs*/
+nav a {
     color: var(--text-clar);
-    text-decoration: none;  /* fara subliniere la link */
+    text-decoration: none;
     font-weight: 600;
     font-size: 13px;
-    letter-spacing: 2px; /* spatiu intre litere */
+    letter-spacing: 2px;
     padding: 8px 14px;
-    border-radius: 5px; /* rotunjeste colturile*/
-    transition: color 0.25s, background-color 0.25s, transform 0.25s;  /*cand se modifica aceste proprietati modifica-le cu viteza.. */
+    border-radius: 5px;
+    transition: color 0.25s, background-color 0.25s, transform 0.25s;
 }
 
 nav a:hover,
@@ -75,25 +73,21 @@ nav a.nav-activ {
 }
 
 
-
-
-
-/* un patrat mare in care se afla cele 2 scrisuri (h1 si hero-sub) de pe toate paginile */
-/* se aplica tuturor el care au clasa.. */
+/* ce e in header */
 .hero-header {
     text-align: center;
-    padding: 15px 24px 10px; /*sus, lateral, jos*/
+    padding: 15px 24px 10px;
 }
 
-/* e scrisul HEINEKEN */
+/* scrisul HEINEKEN */
 h1 {
     font-family: 'Bebas Neue';
-    font-size:  80px;
+    font-size: 80px;
     letter-spacing: 0.08em;
     text-align: center;
 }
 
-/* bere premium... */
+/* "bere premium..." sub titlu */
 .hero-sub {
     font-size: 14px;
     letter-spacing: 0.25em;
@@ -102,20 +96,57 @@ h1 {
     margin-top: 10px;
 }
 
+/* video de pe acasa.html */
+.hero-video-wrap {
+    position: relative;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(0,255,100,0.12);
+    margin-bottom: 8px;
+}
+
+.hero-video-wrap video {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    display: block;
+    margin: 0;
+    border-radius: 0;
+    border: none;
+}
+
+.hero-video-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 24px 40px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    text-align: center;
+}
+
+.hero-video-overlay p {
+    margin: 0;
+    font-size: 0.85rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--verde-neon);
+    font-weight: 600;
+}
 
 
 
 
-
+/* sectiune si carduri  */
 section {
     max-width: 860px;
-    margin: 0 auto; /*top si bottom 0 restul auton */
+    margin: 0 auto;
     padding: 10px 24px 60px;
     display: flex;
     flex-direction: column;
     gap: 32px;
 }
-
 
 .card-bloc {
     background: var(--card-bg);
@@ -127,8 +158,9 @@ section {
 
 .card-bloc:hover {
     border-color: rgba(0,255,100,0.28);
-    box-shadow: 0 8px 40px rgba(0,0,0,0.35); /* fata de pozitia elementului, umbra este deplasata cu 0pc la dreapta, cu 8px in jos si e difuza pe 40 de px */
+    box-shadow: 0 8px 40px rgba(0,0,0,0.35);
 }
+
 
 .bloc-label {
     font-size: 0.7rem;
@@ -138,7 +170,6 @@ section {
     font-weight: 600;
 }
 
-
 h2 {
     font-family: 'Bebas Neue';
     font-size: clamp(1.8rem, 4vw, 2.6rem);
@@ -147,20 +178,19 @@ h2 {
     margin-bottom: 6px;
 }
 
+
 .separator {
     width: 50px;
     height: 3px;
-    background: linear-gradient(90deg, var(--verde-neon), transparent); /* 90 de grade de la stanga la dreapta, 0 in jos, 180 in sus 270 la stvg, si verde neon e start, transparent e final*/
+    background: linear-gradient(90deg, var(--verde-neon), transparent);
     border-radius: 2px;
     margin-bottom: 22px;
 }
-
 
 p {
     color: var(--text-slab);
     margin-bottom: 14px;
 }
-
 
 .link-verde {
     color: var(--verde-neon);
@@ -175,19 +205,129 @@ p {
     border-color: #fff;
 }
 
- img {
+img {
     margin-top: 24px;
     border-radius: 8px;
     border: 1px solid rgba(0,255,100,0.15);
-    display: block;  /* tansforma img din inline in block, ocupa toata linia, nu mai lasa spatiu dedesubt*/
-    max-width: 100%; /* img nu va depasi containerul*/
-    height: auto; /* img se ajusteaza automat proportional ca sa nu se deformeze*/
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* carduri navigare de pe acasa.html */
+.nav-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.nav-card {
+    position: relative;
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 28px 24px;
+    text-decoration: none;
+    color: var(--text-clar);
+    backdrop-filter: blur(8px);
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.nav-card:hover {
+    border-color: rgba(0,255,100,0.28);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+
+.nav-card-title {
+    font-family: 'Bebas Neue';
+    font-size: 1.5rem;
+    letter-spacing: 0.06em;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.nav-card p {
+    margin: 0;
+    font-size: 0.85rem;
+}
+
+/* numarul cardului  */
+.nav-card-num {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: rgba(29, 185, 84, 0.3);
+    font-weight: 700;
+}
+
+/* sageata care apare la hover pe card */
+.nav-card-arrow {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(29, 185, 84, 0);
+    font-weight: 600;
+    transition: color 0.25s, letter-spacing 0.25s;
+}
+
+.nav-card:hover .nav-card-arrow {
+    color: var(--verde-neon);
+    letter-spacing: 0.25em;
 }
 
 
+/* evantaiul de imagini cu beri */
+.evantai-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-top: 32px;
+    height: 220px;
+    position: relative;
+}
+
+.evantai-img {
+    width: 160px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid rgba(0,255,100,0.2);
+    position: absolute;
+    transform: rotate(var(--r)) translateX(var(--tx));
+    transform-origin: bottom center;
+    transition: transform 0.3s ease, z-index 0s, box-shadow 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+
+.evantai-img:hover {
+    transform: rotate(0deg) translateX(var(--tx)) translateY(-30px) scale(1.15);
+    z-index: 10;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.7);
+    border-color: rgba(0,255,100,0.5);
+}
+
+.big-text {
+    margin-top: 28px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--verde-neon);
+    text-align: center;
+    letter-spacing: 0.05em;
+}
+
+
+/* TABELE*/
+
 table {
     width: 100%;
-    border-collapse: collapse; /*uneste marginile celulelor din tabel intr-o singura linie?*/
+    border-collapse: collapse;
     margin-top: 22px;
     font-size: 0.92rem;
 }
@@ -217,9 +357,8 @@ tbody td {
     color: var(--text-slab);
 }
 
-
-
-.alcool{
+/* badge procentaj alcool */
+.alcool {
     display: inline-block;
     padding: 3px 12px;
     border-radius: 20px;
@@ -230,6 +369,9 @@ tbody td {
     font-weight: 700;
 }
 
+
+/*  FORMULARE */
+
 .form-stilizat {
     margin-top: 24px;
     display: flex;
@@ -237,7 +379,6 @@ tbody td {
     gap: 18px;
 }
 
-/*spatiu intre label si input*/
 .form-group {
     display: flex;
     flex-direction: column;
@@ -260,7 +401,7 @@ tbody td {
     padding: 11px 14px;
     color: #fff;
     font-family: 'Montserrat';
-    font-size: 0.9rem; 
+    font-size: 0.9rem;
 }
 
 .form-group select option {
@@ -268,7 +409,27 @@ tbody td {
     color: #fff;
 }
 
+.form-fieldset {
+    border: 1px solid rgba(0,255,100,0.2);
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin-bottom: 8px;
+}
 
+.fieldset-legend {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--verde-neon);
+    font-weight: 700;
+    padding: 0 10px;
+}
+
+.form-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 24px;
+}
 
 .btn-submit {
     align-self: flex-start;
@@ -293,6 +454,7 @@ tbody td {
 }
 
 
+/* LISTA INGREDIENTE */
 
 .lista-ingrediente {
     margin: 16px 0 16px 24px;
@@ -312,7 +474,7 @@ tbody td {
 }
 
 
-
+/* iframe */
 
 .iframe-wrap {
     margin-top: 22px;
@@ -331,107 +493,7 @@ tbody td {
 }
 
 
-footer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    padding: 30px 24px;
-    margin-top: 20px;
-    background: rgba(0,0,0,0.5);
-    border-top: 1px solid rgba(0,255,100,0.08);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-.nav-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 20px;
-    margin-top: 10px;
-}
-
-.nav-card {
-    background: var(--card-bg);
-    border-radius: 10px;
-    padding: 28px 24px;
-    text-decoration: none;
-    color: var(--text-clar);
-    backdrop-filter: blur(8px);
-    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-}
-
-.nav-card:hover {
-    border-color: rgba(0,255,100,0.28);
-    transform: translateY(-4px);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-}
-
-.nav-card-title {
-    font-family: 'Bebas Neue'; 
-    font-size: 1.5rem;
-    letter-spacing: 0.06em;
-    color: #fff;
-    margin-bottom: 8px; 
-}
-
-.nav-card p { 
-    margin: 0; 
-    font-size: 0.85rem;
-}
-
-
-
-
-
-
-.form-fieldset {
-    border: 1px solid rgba(0,255,100,0.2);
-    border-radius: 8px;
-    padding: 24px 28px;
-    margin-bottom: 8px;
-}
- 
-.fieldset-legend {
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--verde-neon);
-    font-weight: 700;
-    padding: 0 10px;
-}
-
-
-
-
-
-.form-cols {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0 24px;
-}
- 
-
-
-@media (max-width: 560px) {
-    .form-cols { grid-template-columns: 1fr; }
-}
-
-
-
-
- 
-
-
+/* videoclipuri */
 
 .video-galerie {
     display: flex;
@@ -440,19 +502,19 @@ footer {
     margin-top: 22px;
     justify-content: center;
 }
- 
+
 .video-item {
     border-radius: 8px;
     overflow: hidden;
     border: 1px solid rgba(0,255,100,0.15);
     box-shadow: 0 4px 24px rgba(0,0,0,0.4);
 }
- 
+
 .video-item iframe {
     display: block;
     border: none;
 }
- 
+
 .video-item.mare   iframe { width: 560px; height: 315px; }
 .video-item.mediu  iframe { width: 400px; height: 225px; }
 .video-item.mic    iframe { width: 280px; height: 158px; }
@@ -481,82 +543,25 @@ footer {
 }
 
 
+footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 30px 24px;
+    margin-top: 20px;
+    background: rgba(0,0,0,0.5);
+    border-top: 1px solid rgba(0,255,100,0.08);
+}
 
-
-.big-text {
-    margin-top: 28px;
-    font-size: 1.2rem;
-    font-weight: 600;
+#user-logat-footer {
+    display: none;
     color: var(--verde-neon);
-    text-align: center;
-    letter-spacing: 0.05em;
+    font-weight: bold;
 }
 
 
-
- 
-
-@media (max-width: 600px) {
-    nav {
-        flex-direction: column;
-        align-items: center;
-        gap: 4px;
-        padding: 10px 12px;
-    }
- 
-    nav a {
-        font-size: 11px;
-        padding: 6px 10px;
-        letter-spacing: 1px;
-    }
- 
-    h1 {
-        font-size: 50px;
-    }
- 
-    .hero-header {
-        padding: 30px 16px 24px;
-    }
- 
-    .card-bloc {
-        padding: 24px 18px;
-    }
- 
-    .video-item.mare  iframe { width: 100%; height: 200px; }
-    .video-item.mediu iframe { width: 100%; height: 200px; }
-    .video-item.mic   iframe { width: 100%; height: 200px; }
-}
- 
-
-@media print {
-    nav, footer {
-        display: none;
-    }
- 
-    body {
-        background: #fff;
-        color: #000;
-        font-size: 12pt;
-    }
- 
-    .card-bloc {
-        background: #fff;
-        border: 1px solid #ccc;
-        box-shadow: none;
-        backdrop-filter: none;
-    }
- 
-    h1, h2 {
-        color: #000;
-    }
- 
-    p {
-        color: #333;
-    }
-}
- 
-
-/*invat.html*/
+/* PAGINA INVAT */
 
 .invat-wrap {
     max-width: 900px;
@@ -587,6 +592,38 @@ footer {
     gap: 28px;
 }
 
+/* navigatie laterala din aside */
+.aside-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: none;
+    border: none;
+    padding: 0;
+    position: static;
+}
+
+.aside-nav a {
+    color: var(--text-slab);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border-left: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+    transform: none;
+}
+
+.aside-nav a:hover {
+    color: var(--verde-neon);
+    border-left-color: var(--verde-neon);
+    background: rgba(0,255,100,0.06);
+    transform: none;
+}
+
+/* randuri de informatii despre browser/locatie */
 .info-row {
     display: flex;
     flex-direction: column;
@@ -620,6 +657,7 @@ footer {
     word-break: break-all;
 }
 
+/* canvas de desenat */
 .canvas-controls {
     display: flex;
     align-items: center;
@@ -666,6 +704,7 @@ footer {
     letter-spacing: 0.05em;
 }
 
+/* tabel dinamic din invat.html */
 .tabel-controls {
     display: flex;
     align-items: center;
@@ -736,176 +775,64 @@ footer {
 }
 
 
-.aside-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    background: none;
-    border: none;
-    padding: 0;
-    position: static;
-}
-
-.aside-nav a {
-    color: var(--text-slab);
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    padding: 8px 12px;
-    border-radius: 6px;
-    border-left: 2px solid transparent;
-    transition: color 0.2s, border-color 0.2s, background 0.2s;
-    transform: none;
-}
-
-.aside-nav a:hover {
-    color: var(--verde-neon);
-    border-left-color: var(--verde-neon);
-    background: rgba(0,255,100,0.06);
-    transform: none;
-}
 
 
 
-/* responsive invat-wrap */
-@media screen and (max-width: 640px) {
-    .invat-wrap {
-        grid-template-columns: 1fr;
+
+/* ecrane mici - telefoane */
+@media screen and (max-width: 600px) {
+    nav {
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        padding: 10px 12px;
     }
+
+    nav a {
+        font-size: 11px;
+        padding: 6px 10px;
+        letter-spacing: 1px;
+    }
+
+    h1 { font-size: 50px; }
+
+    .hero-header { padding: 30px 16px 24px; }
+
+    .card-bloc { padding: 24px 18px; }
+
+    .video-item.mare  iframe { width: 100%; height: 200px; }
+    .video-item.mediu iframe { width: 100%; height: 200px; }
+    .video-item.mic   iframe { width: 100%; height: 200px; }
 }
 
-
-
-
-
-
-.hn-stat-row {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    padding: 10px 24px 32px;
-    flex-wrap: wrap;
-}
-.hn-stat { text-align: center; }
-.hn-stat-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2rem;
-    color: var(--verde-neon);
-    letter-spacing: 0.05em;
-    line-height: 1;
-}
-.hn-stat-label {
-    font-size: 10px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--text-slab);
-    font-weight: 600;
-    margin-top: 4px;
-}
-.hn-stat-sep {
-    width: 1px;
-    background: rgba(0,255,100,0.15);
-    align-self: stretch;
-    margin: 4px 0;
+/* formular cu o coloana pe telefon */
+@media (max-width: 560px) {
+    .form-cols { grid-template-columns: 1fr; }
 }
 
-/* ── Nav cards îmbunătățite ── */
-.nav-card { position: relative; }
-.nav-card-num {
-    position: absolute;
-    top: 14px;
-    right: 16px;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    color: rgba(29, 185, 84, 0.3);
-    font-weight: 700;
-}
-.nav-card-arrow {
-    display: inline-block;
-    margin-top: 14px;
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: rgba(29, 185, 84, 0);
-    font-weight: 600;
-    transition: color 0.25s, letter-spacing 0.25s;
-}
-.nav-card:hover .nav-card-arrow {
-    color: var(--verde-neon);
-    letter-spacing: 0.25em;
+/* aside invat dispare pe mobil */
+@media screen and (max-width: 640px) {
+    .invat-wrap { grid-template-columns: 1fr; }
 }
 
+/* print - fara nav/footer, fundal alb */
+@media print {
+    nav, footer { display: none; }
 
-.hero-video-wrap {
-    position: relative;
-    width: 100%;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid rgba(0,255,100,0.12);
-    margin-bottom: 8px;
-}
+    body {
+        background: #fff;
+        color: #000;
+        font-size: 12pt;
+    }
 
-.hero-video-wrap video {
-    width: 100%;
-    height: 420px;
-    object-fit: cover;
-    display: block;
-    margin: 0;
-    border-radius: 0;
-    border: none;
-}
+    .card-bloc {
+        background: #fff;
+        border: 1px solid #ccc;
+        box-shadow: none;
+        backdrop-filter: none;
+    }
 
-.hero-video-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 24px 40px;
-    background: linear-gradient(transparent, rgba(0,0,0,0.7));
-    text-align: center;
-}
+    h1, h2 { color: #000; }
 
-.hero-video-overlay p {
-    margin: 0;
-    font-size: 0.85rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--verde-neon);
-    font-weight: 600;
-}
-
-
-
-
-
-.evantai-wrap {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    margin-top: 32px;
-    height: 220px;
-    position: relative;
-}
-
-.evantai-img {
-    width: 160px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 8px;
-    border: 2px solid rgba(0,255,100,0.2);
-    position: absolute;
-    transform: rotate(var(--r)) translateX(var(--tx));
-    transform-origin: bottom center;
-    transition: transform 0.3s ease, z-index 0s, box-shadow 0.3s ease;
-    cursor: pointer;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-}
-
-.evantai-img:hover {
-    transform: rotate(0deg) translateX(var(--tx)) translateY(-30px) scale(1.15);
-    z-index: 10;
-    box-shadow: 0 16px 40px rgba(0,0,0,0.7);
-    border-color: rgba(0,255,100,0.5);
+    p { color: #333; }
 }

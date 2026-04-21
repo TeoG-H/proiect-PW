@@ -9,8 +9,6 @@
         </nav>
     </aside>
 
-
-
     <div class="sectiuni">
 
         <section class="card-bloc" id="sec1">
@@ -18,12 +16,12 @@
 
             <div class="info-row">
                 <div class="info-item">
-                    <span class="info-label">Ora și data exactă: </span> <!-- cu span stilizez portiuni mici -->
-                    <span class="info-val" id="dataOra">—</span>
+                    <span class="info-label">Ora și data exactă: </span> <!-- cu span stilizez portiuni mici ca inline -->
+                    <span class="info-val" id="dataOra">-</span>
                 </div>
                 <div class="info-item">
                     <span class="info-label">Că te afli pe site-ul nostru: </span>
-                    <span class="info-val" id="url">—</span>
+                    <span class="info-val" id="url">-</span>
                 </div>
                 <div class="info-item">
                     <span class="info-label">Că te afli la: </span>
@@ -47,14 +45,8 @@
             <h2>Nu uita să fii copil </h2>
             <p class="big-text">Lasă imaginația să lucreze și desenează o sticlă de bere</p>
             <div class="canvas-controls">
-                <label>
-                    Contur
-                    <input type="color" id="culoareContur" value="#00ff64">
-                </label>
-                <label>
-                    Umplere
-                    <input type="color" id="culoareFill" value="#006c35">
-                </label>
+                <label> Contur <input type="color" id="culoareContur" value="#00ff64"> </label>  <!-- e mai fain si mai scurt asa, nu ma mai chinui la legat-->
+                <label> Umplere <input type="color" id="culoareFill" value="#006c35"> </label>
                 <button class="btn-submit" onclick="stergeCanvas()">Șterge canvas</button>
             </div>
 
@@ -68,14 +60,8 @@
             <h2>Construiește colecția de bere ideală</h2>
 
             <div class="tabel-controls">
-                <label>
-                    Poziție
-                    <input type="number" id="poz" value="1" min="1">
-                </label>
-                <label>
-                    Culoare
-                    <input type="color" id="culoareLinie" value="#043d1f">
-                </label>
+                <label> Poziție <input type="number" id="poz" value="1" min="1"> </label>
+                <label> Culoare <input type="color" id="culoareLinie" value="#043d1f"> </label>
                 <button class="btn-submit" onclick="insereazaLinie()">+ Linie</button>
                 <button class="btn-submit" onclick="insereazaColoana()">+ Coloană</button>
             </div>
