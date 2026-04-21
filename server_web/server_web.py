@@ -5,9 +5,11 @@ import json
 from urllib.parse import unquote_plus
 from concurrent.futures import ThreadPoolExecutor
 
+
+# __file__ fisierul care ruleaza acum, o face absoluta, cu .. in spate si folderul continut 
 director_continut = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'continut')
 
-# Dictionar cu tipurile de fisiere
+
 tipuri_continut = {
     '.html': 'text/html; charset=utf-8',
     '.css':  'text/css; charset=utf-8',
@@ -26,15 +28,17 @@ tipuri_continut = {
 }
 
 
+
+# https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods/POST
+
+# https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods/GET
+
 def proceseaza_cererea(clientsocket, address):
     try:
         cerere = ''
-        clientsocket.settimeout(2) #daca clientul nu trimite in 2 sec se opreste citirea
         try:
             while True:
                 data = clientsocket.recv(1024) #citeste date 1024 de bytes, returneaza nr de bytes cititi
-                if not data:   #cand nu mai sunt date se opreste 
-                    break
                 cerere += data.decode('utf-8', errors='ignore') #face frumos un string cu cererea, si decodeaza fiecare byte cititi, daca apare cava invalid nu da eroare da ignor 
                 if '\r\n\r\n' in cerere:  #separatorul dintee header-ul HTTP si corpul cererii mi-a picat la exam la RC 
                     # de ce trebuie sa ma opresc cand vad asta? 
@@ -65,11 +69,11 @@ def proceseaza_cererea(clientsocket, address):
         pozitie = cerere.find('\r\n')
 
         if pozitie > -1:
-            linieDeStart = cerere[0:pozitie] #ia practic headerul 
-            elemente     = linieDeStart.split(' ')
+            headerr = cerere[0:pozitie] #ia practic headerul 
+            elemente = headerr.split(' ')
 
             if len(elemente) > 1: #daca cererea e valida are minim metoda si resursa 
-                metoda      = elemente[0]
+                metoda = elemente[0]
                 numeResursa = elemente[1]
 
                 if numeResursa == '/':
@@ -79,12 +83,13 @@ def proceseaza_cererea(clientsocket, address):
 
                 # POST /api/utilizatori
                 if metoda == 'POST' and numeResursa == '/api/utilizatori': #cand completez formularul mare si vreau sa salvez in utilizatori.json
-                    separator = cerere.find('\r\n\r\n')
-                    corp = cerere[separator + 4:] if separator > -1 else '' #ia corpul
+                    #separator = cerere.find('\r\n\r\n')
+                    #corp = cerere[separator + 4:] if separator > -1 else '' #ia corpul
+
+                    corp = cerere.split('\r\n\r\n', 1)[1]
 
                     try:
                         date_noi = json.loads(corp) #trans textul json in obiect py
-
                         cale_json = os.path.join(director_continut, 'resurse', 'utilizatori.json') #director_continut e definita sus
 
                         with open(cale_json, 'r', encoding='utf-8') as f:
@@ -98,9 +103,8 @@ def proceseaza_cererea(clientsocket, address):
                         #face raspunsul in bytes
                         raspuns_ok = b'{"status": "ok"}'
                         header  = "HTTP/1.1 200 OK\r\n"
-                        header += f"Content-Length: {len(raspuns_ok)}\r\n"
                         header += "Content-Type: application/json; charset=utf-8\r\n"
-                        header += "Connection: close\r\n\r\n"
+                        header += f"Content-Length: {len(raspuns_ok)}\r\n\r\n"
                         clientsocket.sendall(header.encode('utf-8') + raspuns_ok)
                         print(f"[+] Utilizator nou inregistrat: {date_noi.get('utilizator', '?')}")
 
@@ -108,9 +112,8 @@ def proceseaza_cererea(clientsocket, address):
                         print(f"Eroare POST utilizatori: {e}")
                         raspuns_err = b'{"status": "error"}'
                         header  = "HTTP/1.1 500 Internal Server Error\r\n"
-                        header += f"Content-Length: {len(raspuns_err)}\r\n"
                         header += "Content-Type: application/json; charset=utf-8\r\n"
-                        header += "Connection: close\r\n\r\n"
+                        header += f"Content-Length: {len(raspuns_err)}\r\n\r\n"
                         clientsocket.sendall(header.encode('utf-8') + raspuns_err)
 
                     return
@@ -118,55 +121,60 @@ def proceseaza_cererea(clientsocket, address):
                 # POST /api/preferinta
                 #la fel ca mai sus doar ca aici ca raspuns trimite un html
                 if metoda == 'POST' and numeResursa == '/api/preferinta':
-                    separator = cerere.find('\r\n\r\n')
-                    corp = cerere[separator + 4:] if separator > -1 else '' 
+                    corp = cerere.split('\r\n\r\n', 1)[1]
 
-                    params = {}
-                    for pereche in corp.split('&'):
-                        if '=' in pereche:
-                            cheie, valoare = pereche.split('=', 1)
-                            params[cheie] = unquote_plus(valoare)
+                    try:
+                        params = {}
+                        #stii ca sus avea ...=...&..=...&..
+                        for pereche in corp.split('&'):  
+                            if '=' in pereche:
+                                cheie, valoare = pereche.split('=', 1) # 1 e doar la primul = in caz de am in nume un =
+                                params[cheie] = unquote_plus(valoare) #unquote ca gen cand trimiti prin formular unele caractere se schimba cum ar fi spatiu cu +
 
-                    nume      = params.get('nume', '?')
-                    prenume   = params.get('prenume', '?')
-                    bere      = params.get('bere', '?')
-                    descriere = params.get('descriere', '')
+                        nume = params.get('nume', '?')
+                        prenume = params.get('prenume', '?')
+                        bere = params.get('bere', '?')
+                        descriere = params.get('descriere', '')
 
-                    print(f"DEBUG corp: {corp}")
-                    print(f"DEBUG params: {params}")
-
-                    pagina_html = f"""<!DOCTYPE html>
-                        <html lang="ro">
-                        <head>
-                            <meta charset="utf-8">
-                            <title>Multumim!</title>
-                            <link rel="stylesheet" href="/css/stil.css">
-                        </head>
-                        <body>
-                            <div style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
-                                <div class="card-bloc" style="max-width:480px; text-align:center; padding:48px 40px;">
-                                    <div class="bloc-label">Heineken &bull; 1873</div>
-                                    <h2>Multumim, {nume}!</h2>
-                                    <div class="separator" style="margin: 0 auto 20px;"></div>
-                                    <p>Votul tau a fost salvat.</p>
-                                    <p>Berea preferata: <strong style="color:var(--verde-neon);">{bere}</strong></p>
-                                    {"<p style='font-style:italic; color:rgba(240,248,240,0.55);'>&ldquo;" + descriere + "&rdquo;</p>" if descriere else ""}
-                                    <a href="/index.html" class="btn-submit"
-                                    style="display:inline-block; margin-top:24px; text-decoration:none;">
-                                        &larr; Inapoi la site
-                                    </a>
+                        pagina_html = f"""<!DOCTYPE html>
+                            <html lang="ro">
+                            <head>
+                                <meta charset="utf-8">
+                                <title>Multumim!</title>
+                                <link rel="stylesheet" href="/css/stil.css">
+                            </head>
+                            <body>
+                                <div style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
+                                    <div class="card-bloc" style="max-width:480px; text-align:center; padding:48px 40px;">
+                                        <div class="bloc-label">Heineken &bull; 1873</div>
+                                        <h2>Multumim, {prenume}!</h2>
+                                        <div class="separator" style="margin: 0 auto 20px;"></div>
+                                        <p>Votul tau a fost salvat.</p>
+                                        <p>Berea preferata: <strong style="color:var(--verde-neon);">{bere}</strong></p>
+                                        {"<p style='font-style:italic; color:rgba(240,248,240,0.55);'>&ldquo;" + descriere + "&rdquo;</p>" if descriere else ""}
+                                        <a href="/index.html" class="btn-submit"
+                                        style="display:inline-block; margin-top:24px; text-decoration:none;">
+                                            &larr; Inapoi la site
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                        </body>
-                        </html>"""
+                            </body>
+                            </html>"""
 
-                    continut = pagina_html.encode('utf-8')  #aici de ce nu mai trebuie in bytes raspunsul?
-                    header  = "HTTP/1.1 200 OK\r\n"
-                    header += f"Content-Length: {len(continut)}\r\n"
-                    header += "Content-Type: text/html; charset=utf-8\r\n"
-                    header += "Connection: close\r\n\r\n"
-                    clientsocket.sendall(header.encode('utf-8') + continut)
-                    print(f"[+] Preferinta primita: {nume} {prenume} -> {bere}")
+                        continut = pagina_html.encode('utf-8')  #face bytes
+                        header  = "HTTP/1.1 200 OK\r\n"
+                        header += f"Content-Length: {len(continut)}\r\n"
+                        header += "Content-Type: text/html; charset=utf-8\r\n"
+                        header += "Connection: close\r\n\r\n"
+                        clientsocket.sendall(header.encode('utf-8') + continut)
+
+                    except Exception as e:
+                        print(f"Eroare POST preferinta: {e}")
+                        raspuns_err = b"<h1>Eroare la procesare</h1>"
+                        header  = "HTTP/1.1 500 Internal Server Error\r\n"
+                        header += f"Content-Length: {len(raspuns_err)}\r\n"
+                        header += "Content-Type: text/html; charset=utf-8\r\n\r\n"
+                        clientsocket.sendall(header.encode('utf-8') + raspuns_err)
                     return
 
                 # GET 
@@ -176,12 +184,12 @@ def proceseaza_cererea(clientsocket, address):
 
                     _, extensie = os.path.splitext(cale_fisier)
                     extensie    = extensie.lower()
-                    content_type = tipuri_continut.get(extensie, 'application/octet-stream')
+                    content_type = tipuri_continut.get(extensie, 'application/octet-stream') #content type il folosessc la raspuns
 
-                    with open(cale_fisier, 'rb') as f:
+                    with open(cale_fisier, 'rb') as f:  # r read, b-binar
                         continut_fisier = f.read()
 
-                    suporta_gzip = 'Accept-Encoding' in cerere and 'gzip' in cerere
+                    suporta_gzip = 'Accept-Encoding' in cerere and 'gzip' in cerere  # Browserul trimite in cerere ceva de cenul accept-Endcoding:...... si verific daca accepta gzip 
                     extra_header = ""
 
                     if suporta_gzip and extensie in ['.html', '.css', '.js', '.json', '.xml']:
@@ -192,7 +200,7 @@ def proceseaza_cererea(clientsocket, address):
 
                     header  = "HTTP/1.1 200 OK\r\n"
                     header += f"Content-Length: {len(continut_final)}\r\n"
-                    header += f"Content-Type: {content_type}\r\n"
+                    header += f"Content-Type: {content_type}\r\n"  
                     header += extra_header
                     header += "Server: HeiNekenServer/1.0\r\n"
                     header += "Connection: close\r\n\r\n"
@@ -230,7 +238,7 @@ serversocket.listen(5)  #asculta, 5 clienti maxim in coada
 print(" a pornit serverul ")
 
 
-# ThreadPoolExecutor cu 50 de fire - reutilizate, nu recreate
+
 pool = ThreadPoolExecutor(max_workers=30) #creeaza mai multe fire de executie care vor rula in paralel, pool e manager de threaduri
 
 while True:
